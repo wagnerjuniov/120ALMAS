@@ -42,34 +42,84 @@
             background: var(--background);
             color: var(--text-primary);
             transition: var(--transition);
+            overflow-x: hidden;
         }
 
-        .container { max-width: 700px; margin: 0 auto; padding: 40px 20px; }
+        .container { 
+            max-width: 700px; 
+            margin: 0 auto; 
+            padding: 20px 16px 40px; 
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px 12px 40px;
+            }
+        }
 
         header { text-align: center; margin-bottom: 20px; }
-        header h1 { font-size: 2.5rem; font-weight: 700; color: var(--text-primary); }
+        header h1 { 
+            font-size: 2.2rem; 
+            font-weight: 700; 
+            color: var(--text-primary); 
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+        }
         
         .motto-container {
-            margin-top: 12px; padding: 12px; border-radius: 8px;
-            transition: var(--transition); position: relative; cursor: pointer;
+            margin-top: 12px; 
+            padding: 12px; 
+            border-radius: 8px;
+            transition: var(--transition); 
+            position: relative; 
+            cursor: pointer;
             border: 1px solid transparent;
         }
-        .motto-container:hover { background-color: var(--card-bg); border-color: var(--border-color); }
-        #motto-text { font-size: 1.1rem; font-style: italic; color: var(--text-secondary); min-height: 26px; }
+        .motto-container:hover { 
+            background-color: var(--card-bg); 
+            border-color: var(--border-color); 
+        }
+        #motto-text { 
+            font-size: 1.1rem; 
+            font-style: italic; 
+            color: var(--text-secondary); 
+            min-height: 26px; 
+            word-wrap: break-word;
+            hyphens: auto;
+        }
+
+        @media (max-width: 768px) {
+            #motto-text {
+                font-size: 1rem;
+            }
+        }
         
         .controls-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 20px;
+            gap: 16px;
             margin-bottom: 30px;
             padding: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .controls-container {
+                gap: 12px;
+                padding: 8px;
+            }
         }
         
         #search-filter {
             width: 100%;
             max-width: 400px;
-            padding: 10px 15px;
+            padding: 12px 16px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             background: var(--card-bg);
@@ -78,71 +128,499 @@
             font-size: 0.9rem;
             transition: var(--transition);
         }
-        #search-filter:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent); }
-
-        .theme-switch { cursor: pointer; background: none; border: none; color: var(--text-secondary); flex-shrink: 0; }
-        .theme-switch .icon { width: 22px; height: 22px; transition: var(--transition); }
-        .theme-switch:hover { color: var(--accent); }
-
-        /* CORREÇÃO DEFINITIVA DO ÍCONE DE TEMA */
-        .theme-switch .icon-sun, .theme-switch .icon-moon { display: none; }
-        body[data-theme="light"] .theme-switch .icon-moon { display: block; }
-        body[data-theme="dark"] .theme-switch .icon-sun { display: block; }
-        
-        .items-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-        .item-card {
-            background: var(--card-bg); border-radius: var(--border-radius); padding: 16px;
-            display: flex; gap: 16px; align-items: center; transition: var(--transition);
-            position: relative; border: 1px solid var(--border-color);
-            cursor: grab;
+        #search-filter:focus { 
+            outline: none; 
+            border-color: var(--accent); 
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent); 
         }
+
+        @media (max-width: 768px) {
+            #search-filter {
+                padding: 10px 14px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+        }
+
+        .theme-switch { 
+            cursor: pointer; 
+            background: none; 
+            border: none; 
+            color: var(--text-secondary); 
+            flex-shrink: 0;
+            padding: 8px;
+            border-radius: 8px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
+            min-height: 44px;
+        }
+        .theme-switch .icon { 
+            width: 24px; 
+            height: 24px; 
+            transition: var(--transition); 
+        }
+        .theme-switch:hover { 
+            color: var(--accent);
+            background-color: var(--background);
+        }
+
+        /* Fixed theme icon visibility */
+        .theme-switch .icon-sun, 
+        .theme-switch .icon-moon { 
+            display: none; 
+        }
+        [data-theme="light"] .theme-switch .icon-moon { 
+            display: block; 
+        }
+        [data-theme="dark"] .theme-switch .icon-sun { 
+            display: block; 
+        }
+        
+        .items-grid { 
+            display: grid; 
+            grid-template-columns: 1fr; 
+            gap: 12px; 
+        }
+
+        .item-card {
+            background: var(--card-bg); 
+            border-radius: var(--border-radius); 
+            padding: 16px;
+            display: flex; 
+            gap: 12px; 
+            align-items: flex-start; 
+            transition: var(--transition);
+            position: relative; 
+            border: 1px solid var(--border-color);
+            cursor: grab;
+            min-height: 70px;
+        }
+
+        @media (max-width: 768px) {
+            .item-card {
+                padding: 14px;
+                gap: 10px;
+                align-items: center;
+            }
+        }
+
         .item-card:active { cursor: grabbing; }
-        .item-card.sortable-ghost { opacity: 0.4; background: var(--accent); }
+        .item-card.sortable-ghost { 
+            opacity: 0.4; 
+            background: var(--accent); 
+        }
         
-        .item-card.is-link { text-decoration: none; }
-        .item-card.is-link:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--accent); }
-        
-        .item-icon-container { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border-radius: 8px; background-color: var(--background); color: var(--text-secondary); }
-        .item-icon-container .icon { width: 22px; height: 22px; }
-        
-        .item-content { flex-grow: 1; overflow: hidden; pointer-events: none; } /* Desativa ponteiro para facilitar o arrastar */
-        .item-content h3 { font-size: 1.1rem; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .item-content p { font-size: 0.85rem; color: var(--text-secondary); white-space: pre-wrap; word-wrap: break-word; }
+        .item-card.is-link { 
+            text-decoration: none; 
+        }
+        .item-card.is-link:hover { 
+            transform: translateY(-2px); 
+            box-shadow: var(--shadow-lg); 
+            border-color: var(--accent); 
+        }
 
-        .item-actions { display: flex; gap: 8px; }
-        .action-btn { background: none; border: none; color: var(--text-secondary); cursor: pointer; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
-        .action-btn:hover { color: var(--text-primary); background: var(--background); }
-        .action-btn .icon { width: 18px; height: 18px; }
-
-        .fab { position: fixed; bottom: 30px; right: 30px; width: 56px; height: 56px; background: var(--accent); color: white; border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-lg); cursor: pointer; transition: var(--transition); z-index: 1000; }
-        .fab:hover { background: var(--accent-hover); transform: scale(1.05) rotate(15deg); }
-        .fab .icon { width: 24px; height: 24px; }
+        @media (max-width: 768px) {
+            .item-card.is-link:hover {
+                transform: none; /* Remove hover transform on mobile */
+            }
+        }
         
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; z-index: 2000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease; }
-        .modal-overlay.active { opacity: 1; visibility: visible; }
-        
-        .modal-content { background: var(--card-bg); padding: 30px; border-radius: var(--border-radius); width: 90%; max-width: 450px; box-shadow: var(--shadow-lg); transform: translateY(20px); transition: transform 0.3s ease; }
-        .modal-overlay.active .modal-content { transform: translateY(0); }
+        .item-icon-container { 
+            width: 40px; 
+            height: 40px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            flex-shrink: 0; 
+            border-radius: 8px; 
+            background-color: var(--background); 
+            color: var(--text-secondary); 
+        }
+        .item-icon-container .icon { 
+            width: 22px; 
+            height: 22px; 
+        }
 
-        .modal-content h2 { font-size: 1.5rem; margin-bottom: 20px; }
-        .form-group { margin-bottom: 16px; }
-        .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.9rem; color: var(--text-secondary); }
-        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--background); color: var(--text-primary); font-family: 'Poppins', sans-serif; font-size: 1rem; transition: var(--transition); }
-        .form-group textarea { min-height: 90px; resize: vertical; }
-        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent); }
-        #url-group { display: none; }
+        @media (max-width: 768px) {
+            .item-icon-container {
+                width: 36px;
+                height: 36px;
+            }
+            .item-icon-container .icon {
+                width: 20px;
+                height: 20px;
+            }
+        }
         
-        .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
-        .btn { padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-family: 'Poppins', sans-serif; font-weight: 600; transition: var(--transition); }
-        .btn-primary { background: var(--accent); color: white; }
-        .btn-primary:hover { background: var(--accent-hover); }
-        .btn-secondary { background: transparent; color: var(--text-secondary); border: 1px solid var(--border-color); }
-        .btn-secondary:hover { background: var(--background); color: var(--text-primary); }
+        .item-content { 
+            flex-grow: 1; 
+            overflow: hidden; 
+            pointer-events: none;
+            min-width: 0; /* Important for text truncation */
+        }
+        .item-content h3 { 
+            font-size: 1.1rem; 
+            font-weight: 600; 
+            color: var(--text-primary); 
+            margin-bottom: 4px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            line-height: 1.3;
+        }
+        .item-content p { 
+            font-size: 0.85rem; 
+            color: var(--text-secondary); 
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
 
-        #choice-modal .modal-content { max-width: 320px; text-align: center; }
-        .choice-buttons { display: flex; gap: 15px; margin-top: 25px; }
-        .choice-btn { flex: 1; padding: 16px; font-size: 1rem; }
-        .choice-btn .icon { width: 22px; height: 22px; margin: 0 auto 8px; }
+        @media (max-width: 768px) {
+            .item-content h3 {
+                font-size: 1rem;
+                line-height: 1.2;
+            }
+            .item-content p {
+                font-size: 0.8rem;
+                -webkit-line-clamp: 2;
+            }
+        }
+
+        .item-actions { 
+            display: flex; 
+            gap: 4px; 
+            flex-shrink: 0;
+            align-self: flex-start;
+        }
+
+        @media (max-width: 768px) {
+            .item-actions {
+                align-self: center;
+                gap: 2px;
+            }
+        }
+
+        .action-btn { 
+            background: none; 
+            border: none; 
+            color: var(--text-secondary); 
+            cursor: pointer; 
+            width: 36px; 
+            height: 36px; 
+            border-radius: 8px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            transition: var(--transition);
+            touch-action: manipulation;
+        }
+        .action-btn:hover { 
+            color: var(--text-primary); 
+            background: var(--background); 
+        }
+        .action-btn .icon { 
+            width: 18px; 
+            height: 18px; 
+        }
+
+        @media (max-width: 768px) {
+            .action-btn {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+            }
+            .action-btn .icon {
+                width: 20px;
+                height: 20px;
+            }
+            .action-btn:active {
+                background: var(--background);
+                transform: scale(0.95);
+            }
+        }
+
+        .fab { 
+            position: fixed; 
+            bottom: 20px; 
+            right: 20px; 
+            width: 56px; 
+            height: 56px; 
+            background: var(--accent); 
+            color: white; 
+            border: none; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            box-shadow: var(--shadow-lg); 
+            cursor: pointer; 
+            transition: var(--transition); 
+            z-index: 1000;
+            touch-action: manipulation;
+        }
+        .fab:hover { 
+            background: var(--accent-hover); 
+            transform: scale(1.05) rotate(15deg); 
+        }
+        .fab .icon { 
+            width: 24px; 
+            height: 24px; 
+        }
+
+        @media (max-width: 768px) {
+            .fab {
+                bottom: 24px;
+                right: 24px;
+                width: 60px;
+                height: 60px;
+            }
+            .fab:active {
+                background: var(--accent-hover);
+                transform: scale(0.95);
+            }
+            .fab:hover {
+                transform: none;
+            }
+        }
+        
+        .modal-overlay { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(15, 23, 42, 0.6); 
+            backdrop-filter: blur(5px); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            z-index: 2000; 
+            opacity: 0; 
+            visibility: hidden; 
+            transition: opacity 0.3s ease;
+            padding: 20px;
+        }
+        .modal-overlay.active { 
+            opacity: 1; 
+            visibility: visible; 
+        }
+
+        @media (max-width: 768px) {
+            .modal-overlay {
+                padding: 16px;
+                align-items: flex-start;
+                padding-top: 40px;
+            }
+        }
+        
+        .modal-content { 
+            background: var(--card-bg); 
+            padding: 30px; 
+            border-radius: var(--border-radius); 
+            width: 90%; 
+            max-width: 450px; 
+            box-shadow: var(--shadow-lg); 
+            transform: translateY(20px); 
+            transition: transform 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-overlay.active .modal-content { 
+            transform: translateY(0); 
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 100%;
+                max-width: none;
+                padding: 24px;
+                margin: 0;
+                max-height: calc(100vh - 80px);
+            }
+        }
+
+        .modal-content h2 { 
+            font-size: 1.5rem; 
+            margin-bottom: 20px; 
+        }
+
+        @media (max-width: 768px) {
+            .modal-content h2 {
+                font-size: 1.3rem;
+                margin-bottom: 16px;
+            }
+        }
+
+        .form-group { 
+            margin-bottom: 16px; 
+        }
+        .form-group label { 
+            display: block; 
+            margin-bottom: 6px; 
+            font-weight: 600; 
+            font-size: 0.9rem; 
+            color: var(--text-secondary); 
+        }
+        .form-group input, 
+        .form-group textarea { 
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid var(--border-color); 
+            border-radius: 8px; 
+            background: var(--background); 
+            color: var(--text-primary); 
+            font-family: 'Poppins', sans-serif; 
+            font-size: 1rem; 
+            transition: var(--transition); 
+        }
+        .form-group textarea { 
+            min-height: 90px; 
+            resize: vertical; 
+        }
+        .form-group input:focus, 
+        .form-group textarea:focus { 
+            outline: none; 
+            border-color: var(--accent); 
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent); 
+        }
+
+        @media (max-width: 768px) {
+            .form-group input,
+            .form-group textarea {
+                font-size: 16px; /* Prevents zoom on iOS */
+                padding: 14px;
+            }
+            .form-group textarea {
+                min-height: 80px;
+            }
+        }
+
+        #url-group { 
+            display: none; 
+        }
+        
+        .modal-actions { 
+            display: flex; 
+            justify-content: flex-end; 
+            gap: 10px; 
+            margin-top: 20px; 
+        }
+
+        @media (max-width: 768px) {
+            .modal-actions {
+                gap: 8px;
+                flex-direction: column-reverse;
+            }
+        }
+
+        .btn { 
+            padding: 12px 24px; 
+            border-radius: 8px; 
+            border: none; 
+            cursor: pointer; 
+            font-family: 'Poppins', sans-serif; 
+            font-weight: 600; 
+            transition: var(--transition);
+            font-size: 0.9rem;
+            touch-action: manipulation;
+        }
+        .btn-primary { 
+            background: var(--accent); 
+            color: white; 
+        }
+        .btn-primary:hover { 
+            background: var(--accent-hover); 
+        }
+        .btn-secondary { 
+            background: transparent; 
+            color: var(--text-secondary); 
+            border: 1px solid var(--border-color); 
+        }
+        .btn-secondary:hover { 
+            background: var(--background); 
+            color: var(--text-primary); 
+        }
+
+        @media (max-width: 768px) {
+            .btn {
+                padding: 14px 20px;
+                width: 100%;
+                font-size: 1rem;
+            }
+            .btn:active {
+                transform: scale(0.98);
+            }
+        }
+
+        #choice-modal .modal-content { 
+            max-width: 320px; 
+            text-align: center; 
+        }
+        .choice-buttons { 
+            display: flex; 
+            gap: 15px; 
+            margin-top: 25px; 
+        }
+        .choice-btn { 
+            flex: 1; 
+            padding: 16px; 
+            font-size: 1rem; 
+        }
+        .choice-btn .icon { 
+            width: 22px; 
+            height: 22px; 
+            margin: 0 auto 8px; 
+        }
+
+        @media (max-width: 768px) {
+            #choice-modal .modal-content {
+                max-width: none;
+            }
+            .choice-buttons {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .choice-btn {
+                padding: 18px;
+            }
+        }
+
+        /* Prevent text selection during drag */
+        .item-card.sortable-chosen {
+            user-select: none;
+        }
+
+        /* Loading state */
+        .loading-text {
+            text-align: center;
+            color: var(--text-secondary);
+            font-style: italic;
+            padding: 40px 20px;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 40px 20px;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .loading-text,
+            .empty-state {
+                padding: 30px 16px;
+                font-size: 0.9rem;
+            }
+        }
     </style>
 </head>
 <body data-theme="light">
@@ -160,25 +638,38 @@
     <div class="container">
         <header>
             <h1>XVI EAC</h1>
-            <div class="motto-container" id="motto-editor" title="Clique para editar a frase"><p id="motto-text"></p></div>
+            <div class="motto-container" id="motto-editor" title="Clique para editar a frase">
+                <p id="motto-text"></p>
+            </div>
         </header>
 
         <div class="controls-container">
             <input type="search" id="search-filter" placeholder="Pesquisar por título ou nota...">
-            <button class="theme-switch" id="theme-switch" title="Mudar Tema"><svg class="icon icon-sun"><use href="#icon-sun"></use></svg><svg class="icon icon-moon"><use href="#icon-moon"></use></svg></button>
+            <button class="theme-switch" id="theme-switch" title="Mudar Tema">
+                <svg class="icon icon-sun"><use href="#icon-sun"></use></svg>
+                <svg class="icon icon-moon"><use href="#icon-moon"></use></svg>
+            </button>
         </div>
 
         <main class="items-grid" id="items-grid"></main>
     </div>
 
-    <button class="fab" id="add-item-btn" title="Adicionar Novo Item"><svg class="icon"><use href="#icon-plus"></use></svg></button>
+    <button class="fab" id="add-item-btn" title="Adicionar Novo Item">
+        <svg class="icon"><use href="#icon-plus"></use></svg>
+    </button>
 
     <div class="modal-overlay" id="choice-modal">
         <div class="modal-content">
             <h2>O que deseja adicionar?</h2>
             <div class="choice-buttons">
-                <button id="add-as-link" class="btn btn-primary choice-btn"><svg class="icon"><use href="#icon-link"></use></svg>Link</button>
-                <button id="add-as-note" class="btn btn-secondary choice-btn"><svg class="icon"><use href="#icon-note"></use></svg>Nota</button>
+                <button id="add-as-link" class="btn btn-primary choice-btn">
+                    <svg class="icon"><use href="#icon-link"></use></svg>
+                    Link
+                </button>
+                <button id="add-as-note" class="btn btn-secondary choice-btn">
+                    <svg class="icon"><use href="#icon-note"></use></svg>
+                    Nota
+                </button>
             </div>
         </div>
     </div>
@@ -188,9 +679,18 @@
             <h2 id="modal-title">Adicionar Item</h2>
             <form id="item-form">
                 <input type="hidden" id="item-id">
-                <div class="form-group"><label for="item-title">Título</label><input type="text" id="item-title"></div>
-                <div class="form-group" id="url-group"><label for="item-url">URL do Link</label><input type="url" id="item-url" placeholder="https://..."></div>
-                <div class="form-group"><label for="item-note">Descrição / Nota</label><textarea id="item-note"></textarea></div>
+                <div class="form-group">
+                    <label for="item-title">Título</label>
+                    <input type="text" id="item-title">
+                </div>
+                <div class="form-group" id="url-group">
+                    <label for="item-url">URL do Link</label>
+                    <input type="url" id="item-url" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label for="item-note">Descrição / Nota</label>
+                    <textarea id="item-note"></textarea>
+                </div>
                 <div class="modal-actions">
                     <button type="button" class="btn btn-secondary" id="cancel-btn">Cancelar</button>
                     <button type="submit" class="btn btn-primary">Salvar</button>
@@ -203,12 +703,33 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
         import { getFirestore, collection, getDocs, addDoc, doc, deleteDoc, updateDoc, serverTimestamp, getDoc, setDoc, writeBatch } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-        const firebaseConfig = { apiKey: "AIzaSyCIX7hEmpRZacxbzIxUOzKMuu4l0lXBTQQ", authDomain: "xvi-eac.firebaseapp.com", projectId: "xvi-eac", storageBucket: "xvi-eac.appspot.com", messagingSenderId: "340488873046", appId: "1:340488873046:web:ddc2c775fe977c4d6487f7" };
+        const firebaseConfig = { 
+            apiKey: "AIzaSyCIX7hEmpRZacxbzIxUOzKMuu4l0lXBTQQ", 
+            authDomain: "xvi-eac.firebaseapp.com", 
+            projectId: "xvi-eac", 
+            storageBucket: "xvi-eac.appspot.com", 
+            messagingSenderId: "340488873046", 
+            appId: "1:340488873046:web:ddc2c775fe977c4d6487f7" 
+        };
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
         let currentItemType = 'link';
-        const dom = { body: document.body, itemsGrid: document.getElementById('items-grid'), addItemBtn: document.getElementById('add-item-btn'), choiceModal: document.getElementById('choice-modal'), formModal: document.getElementById('form-modal'), itemForm: document.getElementById('item-form'), modalTitle: document.getElementById('modal-title'), urlGroup: document.getElementById('url-group'), cancelBtn: document.getElementById('cancel-btn'), themeSwitch: document.getElementById('theme-switch'), mottoText: document.getElementById('motto-text'), mottoEditor: document.getElementById('motto-editor'), searchFilter: document.getElementById('search-filter') };
+        const dom = { 
+            body: document.body, 
+            itemsGrid: document.getElementById('items-grid'), 
+            addItemBtn: document.getElementById('add-item-btn'), 
+            choiceModal: document.getElementById('choice-modal'), 
+            formModal: document.getElementById('form-modal'), 
+            itemForm: document.getElementById('item-form'), 
+            modalTitle: document.getElementById('modal-title'), 
+            urlGroup: document.getElementById('url-group'), 
+            cancelBtn: document.getElementById('cancel-btn'), 
+            themeSwitch: document.getElementById('theme-switch'), 
+            mottoText: document.getElementById('motto-text'), 
+            mottoEditor: document.getElementById('motto-editor'), 
+            searchFilter: document.getElementById('search-filter') 
+        };
 
         const renderItem = (doc) => {
             const item = doc.data();
@@ -216,39 +737,83 @@
             const card = document.createElement(tag);
             card.className = `item-card is-${item.type}`;
             card.dataset.id = doc.id;
-            if (tag === 'a') { card.href = item.url; card.target = '_blank'; card.rel = 'noopener noreferrer'; }
+            if (tag === 'a') { 
+                card.href = item.url; 
+                card.target = '_blank'; 
+                card.rel = 'noopener noreferrer'; 
+            }
             card.innerHTML = `
-                <div class="item-icon-container"><svg class="icon"><use href="#icon-${item.type}"></use></svg></div>
-                <div class="item-content"><h3>${item.title || 'Sem título'}</h3><p>${item.note || ''}</p></div>
+                <div class="item-icon-container">
+                    <svg class="icon"><use href="#icon-${item.type}"></use></svg>
+                </div>
+                <div class="item-content">
+                    <h3>${item.title || 'Sem título'}</h3>
+                    <p>${item.note || ''}</p>
+                </div>
                 <div class="item-actions">
-                    <button class="action-btn edit-btn" title="Editar"><svg class="icon"><use href="#icon-edit"></use></svg></button>
-                    <button class="action-btn delete-btn" title="Excluir"><svg class="icon"><use href="#icon-delete"></use></svg></button>
+                    <button class="action-btn edit-btn" title="Editar">
+                        <svg class="icon"><use href="#icon-edit"></use></svg>
+                    </button>
+                    <button class="action-btn delete-btn" title="Excluir">
+                        <svg class="icon"><use href="#icon-delete"></use></svg>
+                    </button>
                 </div>`;
             dom.itemsGrid.appendChild(card);
-            card.querySelector('.edit-btn').addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); openFormModal('edit', doc); });
-            card.querySelector('.delete-btn').addEventListener('click', async (e) => { e.preventDefault(); e.stopPropagation(); if (confirm(`Excluir "${item.title || 'item'}"?`)) await deleteItem(doc.id); });
+            card.querySelector('.edit-btn').addEventListener('click', (e) => { 
+                e.preventDefault(); 
+                e.stopPropagation(); 
+                openFormModal('edit', doc); 
+            });
+            card.querySelector('.delete-btn').addEventListener('click', async (e) => { 
+                e.preventDefault(); 
+                e.stopPropagation(); 
+                if (confirm(`Excluir "${item.title || 'item'}"?`)) await deleteItem(doc.id); 
+            });
         };
 
         const fetchAll = async () => {
             dom.itemsGrid.innerHTML = '';
             dom.mottoText.textContent = 'Carregando...';
             try {
-                const [itemsSnap, mottoSnap] = await Promise.all([getDocs(collection(db, "items")), getDoc(doc(db, "config", "motto"))]);
-                if (mottoSnap.exists() && mottoSnap.data().text) dom.mottoText.textContent = `“${mottoSnap.data().text}”`; else dom.mottoText.textContent = "Clique para definir a frase guia...";
-                if (itemsSnap.empty) { dom.itemsGrid.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">Clique no botão + para começar a organizar.</p>'; return; }
+                const [itemsSnap, mottoSnap] = await Promise.all([
+                    getDocs(collection(db, "items")), 
+                    getDoc(doc(db, "config", "motto"))
+                ]);
+                if (mottoSnap.exists() && mottoSnap.data().text) {
+                    dom.mottoText.textContent = `"${mottoSnap.data().text}"`;
+                } else {
+                    dom.mottoText.textContent = "Clique para definir a frase guia...";
+                }
+                if (itemsSnap.empty) { 
+                    dom.itemsGrid.innerHTML = '<div class="empty-state">Clique no botão + para começar a organizar.</div>'; 
+                    return; 
+                }
                 
                 // Ordena os documentos por 'position', e se não existir, por data de criação
-                const sortedDocs = itemsSnap.docs.sort((a,b) => (a.data().position ?? Infinity) - (b.data().position ?? Infinity) || (b.data().createdAt?.seconds ?? 0) - (a.data().createdAt?.seconds ?? 0));
+                const sortedDocs = itemsSnap.docs.sort((a,b) => 
+                    (a.data().position ?? Infinity) - (b.data().position ?? Infinity) || 
+                    (b.data().createdAt?.seconds ?? 0) - (a.data().createdAt?.seconds ?? 0)
+                );
                 sortedDocs.forEach(renderItem);
-            } catch (error) { console.error("Erro ao buscar dados:", error); dom.itemsGrid.innerHTML = "<p>Ocorreu um erro ao carregar os dados.</p>"; dom.mottoText.textContent = "Não foi possível carregar a frase." }
+            } catch (error) { 
+                console.error("Erro ao buscar dados:", error); 
+                dom.itemsGrid.innerHTML = "<p>Ocorreu um erro ao carregar os dados.</p>"; 
+                dom.mottoText.textContent = "Não foi possível carregar a frase."
+            }
         };
 
         const updateMotto = async () => {
-            const currentMotto = dom.mottoText.textContent.replaceAll('“', '').replaceAll('”', '');
+            const currentMotto = dom.mottoText.textContent.replaceAll('"', '').replaceAll('"', '');
             const newMotto = prompt("Digite a nova frase guia:", currentMotto.includes('Clique') ? '' : currentMotto);
             if (newMotto !== null && newMotto.trim() !== '') {
-                try { await setDoc(doc(db, "config", "motto"), { text: newMotto }); dom.mottoText.textContent = `“${newMotto}”`; } 
-                catch (error) { console.error("Erro ao salvar frase:", error); alert("Não foi possível salvar a frase."); }
+                try { 
+                    await setDoc(doc(db, "config", "motto"), { text: newMotto }); 
+                    dom.mottoText.textContent = `"${newMotto}"`; 
+                } 
+                catch (error) { 
+                    console.error("Erro ao salvar frase:", error); 
+                    alert("Não foi possível salvar a frase."); 
+                }
             }
         };
 
@@ -276,7 +841,12 @@
         const saveItem = async (e) => {
             e.preventDefault();
             const id = document.getElementById('item-id').value;
-            const itemData = { type: currentItemType, title: dom.itemForm.elements['item-title'].value, url: dom.itemForm.elements['item-url'].value, note: dom.itemForm.elements['item-note'].value };
+            const itemData = { 
+                type: currentItemType, 
+                title: dom.itemForm.elements['item-title'].value, 
+                url: dom.itemForm.elements['item-url'].value, 
+                note: dom.itemForm.elements['item-note'].value 
+            };
             try {
                 if (id) {
                     await updateDoc(doc(db, "items", id), itemData);
@@ -285,13 +855,26 @@
                     itemData.position = dom.itemsGrid.children.length; // Adiciona no final da lista
                     await addDoc(collection(db, "items"), itemData);
                 }
-                closeModal(dom.formModal); fetchAll();
-            } catch (error) { console.error("Erro ao salvar item:", error); }
+                closeModal(dom.formModal); 
+                fetchAll();
+            } catch (error) { 
+                console.error("Erro ao salvar item:", error); 
+            }
         };
 
-        const deleteItem = async (id) => { try { await deleteDoc(doc(db, "items", id)); fetchAll(); } catch (error) { console.error("Erro ao deletar item:", error); } };
+        const deleteItem = async (id) => { 
+            try { 
+                await deleteDoc(doc(db, "items", id)); 
+                fetchAll(); 
+            } catch (error) { 
+                console.error("Erro ao deletar item:", error); 
+            } 
+        };
         
-        const applyTheme = (theme) => { dom.body.setAttribute('data-theme', theme); localStorage.setItem('theme', theme); };
+        const applyTheme = (theme) => { 
+            dom.body.setAttribute('data-theme', theme); 
+            localStorage.setItem('theme', theme); 
+        };
 
         const filterItems = () => {
             const query = dom.searchFilter.value.toLowerCase();
@@ -312,12 +895,26 @@
         };
 
         // --- Event Listeners ---
-        dom.themeSwitch.addEventListener('click', () => applyTheme(dom.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light'));
+        dom.themeSwitch.addEventListener('click', () => 
+            applyTheme(dom.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light')
+        );
         dom.addItemBtn.addEventListener('click', () => dom.choiceModal.classList.add('active'));
-        document.getElementById('add-as-link').addEventListener('click', () => { currentItemType = 'link'; closeModal(dom.choiceModal); openFormModal('add'); });
-        document.getElementById('add-as-note').addEventListener('click', () => { currentItemType = 'note'; closeModal(dom.choiceModal); openFormModal('add'); });
+        document.getElementById('add-as-link').addEventListener('click', () => { 
+            currentItemType = 'link'; 
+            closeModal(dom.choiceModal); 
+            openFormModal('add'); 
+        });
+        document.getElementById('add-as-note').addEventListener('click', () => { 
+            currentItemType = 'note'; 
+            closeModal(dom.choiceModal); 
+            openFormModal('add'); 
+        });
         dom.cancelBtn.addEventListener('click', () => closeModal(dom.formModal));
-        [dom.formModal, dom.choiceModal].forEach(modal => modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(modal); }));
+        [dom.formModal, dom.choiceModal].forEach(modal => 
+            modal.addEventListener('click', (e) => { 
+                if (e.target === modal) closeModal(modal); 
+            })
+        );
         dom.itemForm.addEventListener('submit', saveItem);
         dom.mottoEditor.addEventListener('click', updateMotto);
         dom.searchFilter.addEventListener('input', filterItems);
@@ -337,3 +934,4 @@
     </script>
 </body>
 </html>
+                    
