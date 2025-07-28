@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -7,7 +8,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Biblioteca para "Arrastar e Soltar" -->
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
@@ -15,27 +16,45 @@
     <style>
         :root {
             --background: #f8fafc;
+            --background-secondary: #f1f5f9;
             --card-bg: #ffffff;
             --text-primary: #0f172a;
             --text-secondary: #475569;
+            --text-muted: #64748b;
             --accent: #4f46e5;
             --accent-hover: #4338ca;
+            --accent-light: rgba(79, 70, 229, 0.1);
             --border-color: #e2e8f0;
-            --shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --border-hover: #cbd5e1;
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
             --border-radius: 12px;
-            --transition: all 0.2s ease-in-out;
+            --border-radius-lg: 16px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
         }
 
         [data-theme="dark"] {
             --background: #020617;
-            --card-bg: #0f172a;
+            --background-secondary: #0f172a;
+            --card-bg: #1e293b;
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
-            --border-color: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #334155;
+            --border-hover: #475569;
+            --accent-light: rgba(79, 70, 229, 0.2);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
 
         body {
             font-family: 'Poppins', sans-serif;
@@ -48,312 +67,341 @@
         .container { 
             max-width: 700px; 
             margin: 0 auto; 
-            padding: 20px 16px 40px; 
+            padding: 40px 20px; 
         }
 
-        /* Mobile adjustments */
-        @media (max-width: 768px) {
-            .container {
-                padding: 16px 12px 40px;
-            }
+        header { 
+            text-align: center; 
+            margin-bottom: 32px; 
         }
-
-        header { text-align: center; margin-bottom: 20px; }
+        
         header h1 { 
-            font-size: 2.2rem; 
+            font-size: 2.5rem; 
             font-weight: 700; 
-            color: var(--text-primary); 
+            color: var(--text-primary);
             margin-bottom: 8px;
-        }
-
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 1.8rem;
-            }
+            background: linear-gradient(135deg, var(--accent), #7c3aed);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: none;
         }
         
         .motto-container {
-            margin-top: 12px; 
-            padding: 12px; 
-            border-radius: 8px;
+            margin-top: 16px; 
+            padding: 16px; 
+            border-radius: var(--border-radius);
             transition: var(--transition); 
             position: relative; 
             cursor: pointer;
             border: 1px solid transparent;
+            background: linear-gradient(135deg, var(--accent-light), transparent);
         }
+        
         .motto-container:hover { 
-            background-color: var(--card-bg); 
+            background: var(--card-bg); 
             border-color: var(--border-color); 
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
         }
+        
         #motto-text { 
             font-size: 1.1rem; 
             font-style: italic; 
             color: var(--text-secondary); 
-            min-height: 26px; 
-            word-wrap: break-word;
-            hyphens: auto;
-        }
-
-        @media (max-width: 768px) {
-            #motto-text {
-                font-size: 1rem;
-            }
+            min-height: 26px;
+            font-weight: 500;
         }
         
         .controls-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 16px;
-            margin-bottom: 30px;
-            padding: 10px;
+            gap: 20px;
+            margin-bottom: 32px;
+            padding: 12px;
         }
-
-        @media (max-width: 768px) {
-            .controls-container {
-                gap: 12px;
-                padding: 8px;
-            }
+        
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
         }
         
         #search-filter {
             width: 100%;
-            max-width: 400px;
             padding: 12px 16px;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: var(--border-radius);
             background: var(--card-bg);
             color: var(--text-primary);
             font-family: 'Poppins', sans-serif;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             transition: var(--transition);
+            box-shadow: var(--shadow);
         }
+        
         #search-filter:focus { 
             outline: none; 
             border-color: var(--accent); 
-            box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent); 
-        }
-
-        @media (max-width: 768px) {
-            #search-filter {
-                padding: 10px 14px;
-                font-size: 16px; /* Prevents zoom on iOS */
-            }
+            box-shadow: 0 0 0 3px var(--accent-light), var(--shadow);
+            transform: scale(1.02);
         }
 
         .theme-switch { 
             cursor: pointer; 
-            background: none; 
-            border: none; 
+            background: var(--card-bg); 
+            border: 1px solid var(--border-color); 
             color: var(--text-secondary); 
             flex-shrink: 0;
-            padding: 8px;
-            border-radius: 8px;
-            transition: var(--transition);
+            width: 44px;
+            height: 44px;
+            border-radius: var(--border-radius);
             display: flex;
             align-items: center;
             justify-content: center;
-            min-width: 44px;
-            min-height: 44px;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
         }
+        
         .theme-switch .icon { 
-            width: 24px; 
-            height: 24px; 
+            width: 20px; 
+            height: 20px; 
             transition: var(--transition); 
         }
+        
         .theme-switch:hover { 
-            color: var(--accent);
-            background-color: var(--background);
+            color: var(--accent); 
+            border-color: var(--accent);
+            transform: scale(1.05);
+            box-shadow: var(--shadow-lg);
         }
 
-        /* Fixed theme icon visibility */
         .theme-switch .icon-sun, 
         .theme-switch .icon-moon { 
             display: none; 
         }
-        [data-theme="light"] .theme-switch .icon-moon { 
+        
+        body[data-theme="light"] .theme-switch .icon-moon { 
             display: block; 
         }
-        [data-theme="dark"] .theme-switch .icon-sun { 
+        
+        body[data-theme="dark"] .theme-switch .icon-sun { 
             display: block; 
         }
         
         .items-grid { 
             display: grid; 
             grid-template-columns: 1fr; 
-            gap: 12px; 
+            gap: 16px; 
         }
-
+        
         .item-card {
             background: var(--card-bg); 
             border-radius: var(--border-radius); 
-            padding: 16px;
+            padding: 20px;
             display: flex; 
-            gap: 12px; 
-            align-items: flex-start; 
+            gap: 16px; 
+            align-items: center; 
             transition: var(--transition);
             position: relative; 
             border: 1px solid var(--border-color);
             cursor: grab;
-            min-height: 70px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
         }
-
-        @media (max-width: 768px) {
-            .item-card {
-                padding: 14px;
-                gap: 10px;
-                align-items: center;
-            }
+        
+        .item-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), #7c3aed);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: var(--transition);
         }
-
-        .item-card:active { cursor: grabbing; }
+        
+        .item-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .item-card:active { 
+            cursor: grabbing; 
+        }
+        
         .item-card.sortable-ghost { 
-            opacity: 0.4; 
-            background: var(--accent); 
+            opacity: 0.5;
+            transform: rotate(2deg) scale(0.98);
+            background: var(--accent-light);
+            border-color: var(--accent);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .item-card.sortable-chosen {
+            transform: scale(1.02);
+            z-index: 1000;
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .item-card.sortable-drag {
+            transform: rotate(-2deg) scale(1.05);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--accent);
         }
         
         .item-card.is-link { 
             text-decoration: none; 
         }
+        
         .item-card.is-link:hover { 
-            transform: translateY(-2px); 
-            box-shadow: var(--shadow-lg); 
+            transform: translateY(-4px) scale(1.02); 
+            box-shadow: var(--shadow-xl); 
             border-color: var(--accent); 
         }
-
-        @media (max-width: 768px) {
-            .item-card.is-link:hover {
-                transform: none; /* Remove hover transform on mobile */
-            }
+        
+        .item-card.is-note:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--border-hover);
+        }
+        
+        .drag-handle {
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 20px;
+            background: var(--border-color);
+            border-radius: 2px;
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .drag-handle::after {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 0;
+            width: 4px;
+            height: 20px;
+            background: var(--border-color);
+            border-radius: 2px;
+        }
+        
+        .item-card:hover .drag-handle {
+            opacity: 0.6;
         }
         
         .item-icon-container { 
-            width: 40px; 
-            height: 40px; 
+            width: 44px; 
+            height: 44px; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
             flex-shrink: 0; 
-            border-radius: 8px; 
-            background-color: var(--background); 
-            color: var(--text-secondary); 
+            border-radius: var(--border-radius); 
+            background: var(--background-secondary); 
+            color: var(--text-secondary);
+            transition: var(--transition);
         }
+        
+        .item-card:hover .item-icon-container {
+            background: var(--accent-light);
+            color: var(--accent);
+            transform: scale(1.1);
+        }
+        
         .item-icon-container .icon { 
             width: 22px; 
             height: 22px; 
-        }
-
-        @media (max-width: 768px) {
-            .item-icon-container {
-                width: 36px;
-                height: 36px;
-            }
-            .item-icon-container .icon {
-                width: 20px;
-                height: 20px;
-            }
         }
         
         .item-content { 
             flex-grow: 1; 
             overflow: hidden; 
             pointer-events: none;
-            min-width: 0; /* Important for text truncation */
+            min-width: 0;
         }
+        
         .item-content h3 { 
             font-size: 1.1rem; 
             font-weight: 600; 
             color: var(--text-primary); 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis;
             margin-bottom: 4px;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            hyphens: auto;
-            line-height: 1.3;
         }
+        
         .item-content p { 
-            font-size: 0.85rem; 
+            font-size: 0.9rem; 
             color: var(--text-secondary); 
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            hyphens: auto;
             line-height: 1.4;
             display: -webkit-box;
-            -webkit-line-clamp: 3;
+            -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-        }
-
-        @media (max-width: 768px) {
-            .item-content h3 {
-                font-size: 1rem;
-                line-height: 1.2;
-            }
-            .item-content p {
-                font-size: 0.8rem;
-                -webkit-line-clamp: 2;
-            }
+            font-weight: 400;
         }
 
         .item-actions { 
             display: flex; 
-            gap: 4px; 
-            flex-shrink: 0;
-            align-self: flex-start;
+            gap: 4px;
+            opacity: 0;
+            transition: var(--transition);
         }
-
-        @media (max-width: 768px) {
-            .item-actions {
-                align-self: center;
-                gap: 2px;
-            }
+        
+        .item-card:hover .item-actions {
+            opacity: 1;
         }
-
+        
         .action-btn { 
             background: none; 
             border: none; 
-            color: var(--text-secondary); 
+            color: var(--text-muted); 
             cursor: pointer; 
             width: 36px; 
             height: 36px; 
-            border-radius: 8px; 
+            border-radius: 50%; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
             transition: var(--transition);
-            touch-action: manipulation;
+            position: relative;
         }
+        
         .action-btn:hover { 
             color: var(--text-primary); 
-            background: var(--background); 
+            background: var(--background-secondary);
+            transform: scale(1.1);
         }
+        
+        .action-btn.edit-btn:hover {
+            color: var(--accent);
+            background: var(--accent-light);
+        }
+        
+        .action-btn.delete-btn:hover {
+            color: var(--danger);
+            background: rgba(239, 68, 68, 0.1);
+        }
+        
         .action-btn .icon { 
             width: 18px; 
             height: 18px; 
         }
 
-        @media (max-width: 768px) {
-            .action-btn {
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-            }
-            .action-btn .icon {
-                width: 20px;
-                height: 20px;
-            }
-            .action-btn:active {
-                background: var(--background);
-                transform: scale(0.95);
-            }
-        }
-
         .fab { 
             position: fixed; 
-            bottom: 20px; 
-            right: 20px; 
-            width: 56px; 
-            height: 56px; 
-            background: var(--accent); 
+            bottom: 32px; 
+            right: 32px; 
+            width: 64px; 
+            height: 64px; 
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover)); 
             color: white; 
             border: none; 
             border-radius: 50%; 
@@ -364,31 +412,18 @@
             cursor: pointer; 
             transition: var(--transition); 
             z-index: 1000;
-            touch-action: manipulation;
         }
+        
         .fab:hover { 
-            background: var(--accent-hover); 
-            transform: scale(1.05) rotate(15deg); 
+            background: linear-gradient(135deg, var(--accent-hover), #6366f1);
+            transform: scale(1.1) rotate(90deg); 
+            box-shadow: var(--shadow-xl);
         }
+        
         .fab .icon { 
-            width: 24px; 
-            height: 24px; 
-        }
-
-        @media (max-width: 768px) {
-            .fab {
-                bottom: 24px;
-                right: 24px;
-                width: 60px;
-                height: 60px;
-            }
-            .fab:active {
-                background: var(--accent-hover);
-                transform: scale(0.95);
-            }
-            .fab:hover {
-                transform: none;
-            }
+            width: 28px; 
+            height: 28px; 
+            transition: var(--transition);
         }
         
         .modal-overlay { 
@@ -398,111 +433,83 @@
             width: 100%; 
             height: 100%; 
             background: rgba(15, 23, 42, 0.6); 
-            backdrop-filter: blur(5px); 
+            backdrop-filter: blur(8px); 
             display: flex; 
             align-items: center; 
             justify-content: center; 
             z-index: 2000; 
             opacity: 0; 
             visibility: hidden; 
-            transition: opacity 0.3s ease;
-            padding: 20px;
+            transition: var(--transition-slow); 
         }
+        
         .modal-overlay.active { 
             opacity: 1; 
             visibility: visible; 
         }
-
-        @media (max-width: 768px) {
-            .modal-overlay {
-                padding: 16px;
-                align-items: flex-start;
-                padding-top: 40px;
-            }
-        }
         
         .modal-content { 
             background: var(--card-bg); 
-            padding: 30px; 
-            border-radius: var(--border-radius); 
+            padding: 32px; 
+            border-radius: var(--border-radius-lg); 
             width: 90%; 
-            max-width: 450px; 
-            box-shadow: var(--shadow-lg); 
-            transform: translateY(20px); 
-            transition: transform 0.3s ease;
-            max-height: 90vh;
-            overflow-y: auto;
+            max-width: 480px; 
+            box-shadow: var(--shadow-xl); 
+            transform: translateY(20px) scale(0.95); 
+            transition: var(--transition-slow);
+            border: 1px solid var(--border-color);
         }
+        
         .modal-overlay.active .modal-content { 
-            transform: translateY(0); 
-        }
-
-        @media (max-width: 768px) {
-            .modal-content {
-                width: 100%;
-                max-width: none;
-                padding: 24px;
-                margin: 0;
-                max-height: calc(100vh - 80px);
-            }
+            transform: translateY(0) scale(1); 
         }
 
         .modal-content h2 { 
-            font-size: 1.5rem; 
+            font-size: 1.6rem; 
+            margin-bottom: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .form-group { 
             margin-bottom: 20px; 
         }
-
-        @media (max-width: 768px) {
-            .modal-content h2 {
-                font-size: 1.3rem;
-                margin-bottom: 16px;
-            }
-        }
-
-        .form-group { 
-            margin-bottom: 16px; 
-        }
+        
         .form-group label { 
             display: block; 
-            margin-bottom: 6px; 
-            font-weight: 600; 
-            font-size: 0.9rem; 
+            margin-bottom: 8px; 
+            font-weight: 500; 
+            font-size: 0.95rem; 
             color: var(--text-secondary); 
         }
+        
         .form-group input, 
         .form-group textarea { 
             width: 100%; 
-            padding: 12px; 
+            padding: 12px 16px; 
             border: 1px solid var(--border-color); 
-            border-radius: 8px; 
+            border-radius: var(--border-radius); 
             background: var(--background); 
             color: var(--text-primary); 
             font-family: 'Poppins', sans-serif; 
             font-size: 1rem; 
-            transition: var(--transition); 
+            transition: var(--transition);
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
         }
+        
         .form-group textarea { 
-            min-height: 90px; 
+            min-height: 100px; 
             resize: vertical; 
+            line-height: 1.5;
         }
+        
         .form-group input:focus, 
         .form-group textarea:focus { 
             outline: none; 
             border-color: var(--accent); 
-            box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent); 
+            box-shadow: 0 0 0 3px var(--accent-light), inset 0 1px 2px rgba(0, 0, 0, 0.05);
         }
-
-        @media (max-width: 768px) {
-            .form-group input,
-            .form-group textarea {
-                font-size: 16px; /* Prevents zoom on iOS */
-                padding: 14px;
-            }
-            .form-group textarea {
-                min-height: 80px;
-            }
-        }
-
+        
         #url-group { 
             display: none; 
         }
@@ -510,115 +517,158 @@
         .modal-actions { 
             display: flex; 
             justify-content: flex-end; 
-            gap: 10px; 
-            margin-top: 20px; 
+            gap: 12px; 
+            margin-top: 28px; 
         }
-
-        @media (max-width: 768px) {
-            .modal-actions {
-                gap: 8px;
-                flex-direction: column-reverse;
-            }
-        }
-
+        
         .btn { 
             padding: 12px 24px; 
-            border-radius: 8px; 
+            border-radius: var(--border-radius); 
             border: none; 
             cursor: pointer; 
             font-family: 'Poppins', sans-serif; 
-            font-weight: 600; 
+            font-weight: 500; 
+            font-size: 0.95rem;
             transition: var(--transition);
-            font-size: 0.9rem;
-            touch-action: manipulation;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
+        
         .btn-primary { 
-            background: var(--accent); 
-            color: white; 
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover)); 
+            color: white;
+            box-shadow: var(--shadow);
         }
+        
         .btn-primary:hover { 
-            background: var(--accent-hover); 
+            background: linear-gradient(135deg, var(--accent-hover), #6366f1);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
+        
         .btn-secondary { 
             background: transparent; 
             color: var(--text-secondary); 
             border: 1px solid var(--border-color); 
         }
+        
         .btn-secondary:hover { 
-            background: var(--background); 
-            color: var(--text-primary); 
-        }
-
-        @media (max-width: 768px) {
-            .btn {
-                padding: 14px 20px;
-                width: 100%;
-                font-size: 1rem;
-            }
-            .btn:active {
-                transform: scale(0.98);
-            }
+            background: var(--background-secondary); 
+            color: var(--text-primary);
+            border-color: var(--border-hover);
         }
 
         #choice-modal .modal-content { 
-            max-width: 320px; 
+            max-width: 360px; 
             text-align: center; 
         }
+        
         .choice-buttons { 
             display: flex; 
-            gap: 15px; 
-            margin-top: 25px; 
+            gap: 16px; 
+            margin-top: 28px; 
         }
+        
         .choice-btn { 
             flex: 1; 
-            padding: 16px; 
-            font-size: 1rem; 
+            padding: 20px 16px; 
+            font-size: 1rem;
+            flex-direction: column;
         }
+        
         .choice-btn .icon { 
-            width: 22px; 
-            height: 22px; 
-            margin: 0 auto 8px; 
+            width: 24px; 
+            height: 24px; 
+            margin-bottom: 8px; 
         }
 
-        @media (max-width: 768px) {
-            #choice-modal .modal-content {
-                max-width: none;
-            }
-            .choice-buttons {
-                flex-direction: column;
-                gap: 12px;
-            }
-            .choice-btn {
-                padding: 18px;
-            }
+        .view-modal .modal-content {
+            max-width: 600px;
         }
 
-        /* Prevent text selection during drag */
-        .item-card.sortable-chosen {
-            user-select: none;
+        .view-modal .note-content {
+            background: var(--background);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            margin: 16px 0;
+            line-height: 1.6;
+            font-size: 1rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
 
-        /* Loading state */
-        .loading-text {
-            text-align: center;
-            color: var(--text-secondary);
-            font-style: italic;
-            padding: 40px 20px;
-        }
-
-        /* Empty state */
         .empty-state {
             text-align: center;
-            color: var(--text-secondary);
-            padding: 40px 20px;
-            font-style: italic;
+            padding: 60px 20px;
+            color: var(--text-muted);
         }
 
-        @media (max-width: 768px) {
-            .loading-text,
-            .empty-state {
-                padding: 30px 16px;
-                font-size: 0.9rem;
+        .empty-state .icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 20px;
+            opacity: 0.5;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            border-top-color: var(--accent);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .search-highlight {
+            background: rgba(255, 235, 59, 0.3);
+            padding: 1px 2px;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 20px 16px;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .controls-container {
+                flex-direction: column;
+                gap: 16px;
+            }
+            
+            .search-container {
+                max-width: none;
+            }
+            
+            .item-card {
+                padding: 16px;
+                gap: 12px;
+            }
+            
+            .item-actions {
+                opacity: 1;
+            }
+            
+            .fab {
+                bottom: 24px;
+                right: 24px;
+                width: 56px;
+                height: 56px;
+            }
+            
+            .modal-content {
+                padding: 24px;
+                margin: 16px;
             }
         }
     </style>
@@ -626,13 +676,45 @@
 <body data-theme="light">
 
     <svg style="position: absolute; width: 0; height: 0; overflow: hidden;">
-        <symbol id="icon-plus" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.5v15m7.5-7.5h-15" /></symbol>
-        <symbol id="icon-edit" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" /></symbol>
-        <symbol id="icon-delete" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.134-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.067-2.09 1.02-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" /></symbol>
-        <symbol id="icon-sun" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-6.364-.386 1.591-1.591M3 12h2.25m.386-6.364 1.591 1.591M12 12a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9Z" /></symbol>
-        <symbol id="icon-moon" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" /></symbol>
-        <symbol id="icon-link" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" /></symbol>
-        <symbol id="icon-note" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" /></symbol>
+        <symbol id="icon-plus" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 4.5v15m7.5-7.5h-15" />
+        </symbol>
+        <symbol id="icon-edit" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+        </symbol>
+        <symbol id="icon-delete" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.134-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.067-2.09 1.02-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+        </symbol>
+        <symbol id="icon-sun" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2"/>
+            <path d="M12 20v2"/>
+            <path d="m4.93 4.93 1.41 1.41"/>
+            <path d="m17.66 17.66 1.41 1.41"/>
+            <path d="M2 12h2"/>
+            <path d="M20 12h2"/>
+            <path d="m6.34 17.66-1.41 1.41"/>
+            <path d="m19.07 4.93-1.41 1.41"/>
+        </symbol>
+        <symbol id="icon-moon" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+        </symbol>
+        <symbol id="icon-link" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+        </symbol>
+        <symbol id="icon-note" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+        </symbol>
+        <symbol id="icon-eye" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+            <path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+        </symbol>
+        <symbol id="icon-grid" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="7" height="7" x="3" y="3" rx="1"/>
+            <rect width="7" height="7" x="14" y="3" rx="1"/>
+            <rect width="7" height="7" x="14" y="14" rx="1"/>
+            <rect width="7" height="7" x="3" y="14" rx="1"/>
+        </symbol>
     </svg>
 
     <div class="container">
@@ -644,7 +726,9 @@
         </header>
 
         <div class="controls-container">
-            <input type="search" id="search-filter" placeholder="Pesquisar por título ou nota...">
+            <div class="search-container">
+                <input type="search" id="search-filter" placeholder="Pesquisar por título ou nota...">
+            </div>
             <button class="theme-switch" id="theme-switch" title="Mudar Tema">
                 <svg class="icon icon-sun"><use href="#icon-sun"></use></svg>
                 <svg class="icon icon-moon"><use href="#icon-moon"></use></svg>
@@ -658,6 +742,7 @@
         <svg class="icon"><use href="#icon-plus"></use></svg>
     </button>
 
+    <!-- Modal de escolha do tipo -->
     <div class="modal-overlay" id="choice-modal">
         <div class="modal-content">
             <h2>O que deseja adicionar?</h2>
@@ -674,6 +759,7 @@
         </div>
     </div>
 
+    <!-- Modal de formulário -->
     <div class="modal-overlay" id="form-modal">
         <div class="modal-content">
             <h2 id="modal-title">Adicionar Item</h2>
@@ -681,7 +767,7 @@
                 <input type="hidden" id="item-id">
                 <div class="form-group">
                     <label for="item-title">Título</label>
-                    <input type="text" id="item-title">
+                    <input type="text" id="item-title" required>
                 </div>
                 <div class="form-group" id="url-group">
                     <label for="item-url">URL do Link</label>
@@ -689,13 +775,31 @@
                 </div>
                 <div class="form-group">
                     <label for="item-note">Descrição / Nota</label>
-                    <textarea id="item-note"></textarea>
+                    <textarea id="item-note" placeholder="Adicione uma descrição ou nota..."></textarea>
                 </div>
                 <div class="modal-actions">
                     <button type="button" class="btn btn-secondary" id="cancel-btn">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="btn-text">Salvar</span>
+                        <div class="loading-spinner" style="display: none;"></div>
+                    </button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Modal de visualização de nota -->
+    <div class="modal-overlay view-modal" id="view-modal">
+        <div class="modal-content">
+            <h2 id="view-title">Visualizar Nota</h2>
+            <div class="note-content" id="view-content"></div>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" id="close-view-btn">Fechar</button>
+                <button type="button" class="btn btn-primary" id="edit-from-view-btn">
+                    <svg class="icon" style="width: 16px; height: 16px;"><use href="#icon-edit"></use></svg>
+                    Editar
+                </button>
+            </div>
         </div>
     </div>
 
@@ -711,16 +815,22 @@
             messagingSenderId: "340488873046", 
             appId: "1:340488873046:web:ddc2c775fe977c4d6487f7" 
         };
+        
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
         let currentItemType = 'link';
+        let currentEditingDoc = null;
+        let allItems = [];
+        let searchTimeout = null;
+        
         const dom = { 
             body: document.body, 
             itemsGrid: document.getElementById('items-grid'), 
             addItemBtn: document.getElementById('add-item-btn'), 
             choiceModal: document.getElementById('choice-modal'), 
             formModal: document.getElementById('form-modal'), 
+            viewModal: document.getElementById('view-modal'),
             itemForm: document.getElementById('item-form'), 
             modalTitle: document.getElementById('modal-title'), 
             urlGroup: document.getElementById('url-group'), 
@@ -728,101 +838,175 @@
             themeSwitch: document.getElementById('theme-switch'), 
             mottoText: document.getElementById('motto-text'), 
             mottoEditor: document.getElementById('motto-editor'), 
-            searchFilter: document.getElementById('search-filter') 
+            searchFilter: document.getElementById('search-filter'),
+            viewTitle: document.getElementById('view-title'),
+            viewContent: document.getElementById('view-content'),
+            closeViewBtn: document.getElementById('close-view-btn'),
+            editFromViewBtn: document.getElementById('edit-from-view-btn')
         };
 
+        // Função para destacar texto na busca
+        const highlightText = (text, query) => {
+            if (!query) return text;
+            const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\    <div')})`, 'gi');
+            return text.replace(regex, '<span class="search-highlight">$1</span>');
+        };
+
+        // Renderizar item individual
         const renderItem = (doc) => {
             const item = doc.data();
             const tag = item.type === 'link' && item.url ? 'a' : 'div';
             const card = document.createElement(tag);
             card.className = `item-card is-${item.type}`;
             card.dataset.id = doc.id;
+            
             if (tag === 'a') { 
                 card.href = item.url; 
                 card.target = '_blank'; 
                 card.rel = 'noopener noreferrer'; 
             }
+
+            // Handle drag
+            const dragHandle = '<div class="drag-handle"></div>';
+            
+            // Para notas, adiciona evento de clique para visualização
+            const noteClickHandler = item.type === 'note' ? 'onclick="window.viewNote(this)" style="cursor: pointer;"' : '';
+            
             card.innerHTML = `
+                ${dragHandle}
                 <div class="item-icon-container">
                     <svg class="icon"><use href="#icon-${item.type}"></use></svg>
                 </div>
-                <div class="item-content">
+                <div class="item-content" ${noteClickHandler}>
                     <h3>${item.title || 'Sem título'}</h3>
                     <p>${item.note || ''}</p>
                 </div>
                 <div class="item-actions">
-                    <button class="action-btn edit-btn" title="Editar">
-                        <svg class="icon"><use href="#icon-edit"></use></svg>
-                    </button>
-                    <button class="action-btn delete-btn" title="Excluir">
-                        <svg class="icon"><use href="#icon-delete"></use></svg>
-                    </button>
+                    ${item.type === 'note' ? `<button class="action-btn view-btn" title="Visualizar"><svg class="icon"><use href="#icon-eye"></use></svg></button>` : ''}
+                    <button class="action-btn edit-btn" title="Editar"><svg class="icon"><use href="#icon-edit"></use></svg></button>
+                    <button class="action-btn delete-btn" title="Excluir"><svg class="icon"><use href="#icon-delete"></use></svg></button>
                 </div>`;
+            
             dom.itemsGrid.appendChild(card);
+            
+            // Event listeners
+            if (item.type === 'note') {
+                const viewBtn = card.querySelector('.view-btn');
+                if (viewBtn) {
+                    viewBtn.addEventListener('click', (e) => { 
+                        e.preventDefault(); 
+                        e.stopPropagation(); 
+                        openViewModal(doc); 
+                    });
+                }
+            }
+            
             card.querySelector('.edit-btn').addEventListener('click', (e) => { 
                 e.preventDefault(); 
                 e.stopPropagation(); 
                 openFormModal('edit', doc); 
             });
+            
             card.querySelector('.delete-btn').addEventListener('click', async (e) => { 
                 e.preventDefault(); 
                 e.stopPropagation(); 
-                if (confirm(`Excluir "${item.title || 'item'}"?`)) await deleteItem(doc.id); 
+                if (confirm(`Excluir "${item.title || 'item'}"?`)) {
+                    await deleteItem(doc.id);
+                }
             });
         };
 
+        // Função global para visualizar nota (para ser chamada do HTML)
+        window.viewNote = (element) => {
+            const itemId = element.closest('.item-card').dataset.id;
+            const doc = allItems.find(item => item.id === itemId);
+            if (doc) openViewModal(doc);
+        };
+
+        // Modal de visualização de nota
+        const openViewModal = (doc) => {
+            const item = doc.data();
+            currentEditingDoc = doc;
+            dom.viewTitle.textContent = item.title || 'Nota sem título';
+            dom.viewContent.textContent = item.note || 'Nota vazia';
+            dom.viewModal.classList.add('active');
+        };
+
+        // Buscar todos os itens no Firebase
         const fetchAll = async () => {
-            dom.itemsGrid.innerHTML = '';
+            dom.itemsGrid.innerHTML = '<div class="loading-spinner" style="margin: 60px auto;"></div>';
             dom.mottoText.textContent = 'Carregando...';
+            
             try {
                 const [itemsSnap, mottoSnap] = await Promise.all([
                     getDocs(collection(db, "items")), 
                     getDoc(doc(db, "config", "motto"))
                 ]);
+                
+                // Atualizar frase
                 if (mottoSnap.exists() && mottoSnap.data().text) {
                     dom.mottoText.textContent = `"${mottoSnap.data().text}"`;
                 } else {
                     dom.mottoText.textContent = "Clique para definir a frase guia...";
                 }
+                
+                // Limpar grid
+                dom.itemsGrid.innerHTML = '';
+                
                 if (itemsSnap.empty) { 
-                    dom.itemsGrid.innerHTML = '<div class="empty-state">Clique no botão + para começar a organizar.</div>'; 
+                    dom.itemsGrid.innerHTML = `
+                        <div class="empty-state">
+                            <svg class="icon"><use href="#icon-grid"></use></svg>
+                            <h3>Nenhum item encontrado</h3>
+                            <p>Clique no botão + para começar a organizar</p>
+                        </div>`;
+                    allItems = [];
                     return; 
                 }
                 
-                // Ordena os documentos por 'position', e se não existir, por data de criação
-                const sortedDocs = itemsSnap.docs.sort((a,b) => 
+                // Ordenar documentos
+                allItems = itemsSnap.docs.sort((a,b) => 
                     (a.data().position ?? Infinity) - (b.data().position ?? Infinity) || 
                     (b.data().createdAt?.seconds ?? 0) - (a.data().createdAt?.seconds ?? 0)
                 );
-                sortedDocs.forEach(renderItem);
+                
+                allItems.forEach(renderItem);
+                
             } catch (error) { 
                 console.error("Erro ao buscar dados:", error); 
-                dom.itemsGrid.innerHTML = "<p>Ocorreu um erro ao carregar os dados.</p>"; 
-                dom.mottoText.textContent = "Não foi possível carregar a frase."
+                dom.itemsGrid.innerHTML = `
+                    <div class="empty-state">
+                        <p style="color: var(--danger);">Ocorreu um erro ao carregar os dados.</p>
+                    </div>`;
+                dom.mottoText.textContent = "Não foi possível carregar a frase.";
             }
         };
 
+        // Atualizar frase guia
         const updateMotto = async () => {
             const currentMotto = dom.mottoText.textContent.replaceAll('"', '').replaceAll('"', '');
             const newMotto = prompt("Digite a nova frase guia:", currentMotto.includes('Clique') ? '' : currentMotto);
+            
             if (newMotto !== null && newMotto.trim() !== '') {
                 try { 
-                    await setDoc(doc(db, "config", "motto"), { text: newMotto }); 
-                    dom.mottoText.textContent = `"${newMotto}"`; 
-                } 
-                catch (error) { 
+                    await setDoc(doc(db, "config", "motto"), { text: newMotto.trim() }); 
+                    dom.mottoText.textContent = `"${newMotto.trim()}"`; 
+                } catch (error) { 
                     console.error("Erro ao salvar frase:", error); 
                     alert("Não foi possível salvar a frase."); 
                 }
             }
         };
 
+        // Abrir modal de formulário
         const openFormModal = (mode = 'add', docToEdit = null) => {
             dom.itemForm.reset();
             dom.urlGroup.style.display = currentItemType === 'link' ? 'block' : 'none';
+            
             if (mode === 'edit' && docToEdit) {
                 const item = docToEdit.data();
                 currentItemType = item.type;
+                currentEditingDoc = docToEdit;
                 dom.urlGroup.style.display = currentItemType === 'link' ? 'block' : 'none';
                 dom.modalTitle.textContent = `Editar ${currentItemType === 'link' ? 'Link' : 'Nota'}`;
                 dom.itemForm.elements['item-id'].value = docToEdit.id;
@@ -830,108 +1014,277 @@
                 dom.itemForm.elements['item-url'].value = item.url || '';
                 dom.itemForm.elements['item-note'].value = item.note || '';
             } else {
+                currentEditingDoc = null;
                 dom.modalTitle.textContent = `Adicionar ${currentItemType === 'link' ? 'Novo Link' : 'Nova Nota'}`;
                 dom.itemForm.elements['item-id'].value = '';
             }
+            
             dom.formModal.classList.add('active');
+            
+            // Focus no primeiro campo
+            setTimeout(() => {
+                dom.itemForm.elements['item-title'].focus();
+            }, 300);
         };
 
-        const closeModal = (modal) => modal.classList.remove('active');
+        // Fechar modal
+        const closeModal = (modal) => {
+            modal.classList.remove('active');
+            currentEditingDoc = null;
+        };
 
+        // Salvar item
         const saveItem = async (e) => {
             e.preventDefault();
+            
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const spinner = submitBtn.querySelector('.loading-spinner');
+            
+            // Mostrar loading
+            btnText.style.display = 'none';
+            spinner.style.display = 'inline-block';
+            submitBtn.disabled = true;
+            
             const id = document.getElementById('item-id').value;
             const itemData = { 
                 type: currentItemType, 
-                title: dom.itemForm.elements['item-title'].value, 
-                url: dom.itemForm.elements['item-url'].value, 
-                note: dom.itemForm.elements['item-note'].value 
+                title: dom.itemForm.elements['item-title'].value.trim(), 
+                url: dom.itemForm.elements['item-url'].value.trim(), 
+                note: dom.itemForm.elements['item-note'].value.trim() 
             };
+            
+            // Validação
+            if (!itemData.title) {
+                alert('O título é obrigatório');
+                btnText.style.display = 'inline';
+                spinner.style.display = 'none';
+                submitBtn.disabled = false;
+                return;
+            }
+            
+            if (currentItemType === 'link' && !itemData.url) {
+                alert('A URL é obrigatória para links');
+                btnText.style.display = 'inline';
+                spinner.style.display = 'none';
+                submitBtn.disabled = false;
+                return;
+            }
+            
             try {
                 if (id) {
                     await updateDoc(doc(db, "items", id), itemData);
                 } else {
                     itemData.createdAt = serverTimestamp();
-                    itemData.position = dom.itemsGrid.children.length; // Adiciona no final da lista
+                    itemData.position = dom.itemsGrid.children.length;
                     await addDoc(collection(db, "items"), itemData);
                 }
+                
                 closeModal(dom.formModal); 
-                fetchAll();
+                await fetchAll();
+                
             } catch (error) { 
-                console.error("Erro ao salvar item:", error); 
+                console.error("Erro ao salvar item:", error);
+                alert("Erro ao salvar item. Tente novamente.");
+            } finally {
+                // Esconder loading
+                btnText.style.display = 'inline';
+                spinner.style.display = 'none';
+                submitBtn.disabled = false;
             }
         };
 
+        // Deletar item
         const deleteItem = async (id) => { 
             try { 
                 await deleteDoc(doc(db, "items", id)); 
-                fetchAll(); 
+                await fetchAll(); 
             } catch (error) { 
-                console.error("Erro ao deletar item:", error); 
+                console.error("Erro ao deletar item:", error);
+                alert("Erro ao deletar item. Tente novamente.");
             } 
         };
         
+        // Aplicar tema
         const applyTheme = (theme) => { 
             dom.body.setAttribute('data-theme', theme); 
             localStorage.setItem('theme', theme); 
         };
 
+        // Filtrar itens com debounce
         const filterItems = () => {
-            const query = dom.searchFilter.value.toLowerCase();
-            document.querySelectorAll('.item-card').forEach(card => {
-                const content = card.textContent.toLowerCase();
-                card.style.display = content.includes(query) ? 'flex' : 'none';
-            });
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const query = dom.searchFilter.value.toLowerCase().trim();
+                
+                if (!query) {
+                    // Mostrar todos os itens
+                    document.querySelectorAll('.item-card').forEach(card => {
+                        card.style.display = 'flex';
+                        // Remover highlights
+                        card.querySelectorAll('.search-highlight').forEach(highlight => {
+                            highlight.outerHTML = highlight.innerHTML;
+                        });
+                    });
+                    return;
+                }
+                
+                let visibleCount = 0;
+                document.querySelectorAll('.item-card').forEach(card => {
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    const note = card.querySelector('p').textContent.toLowerCase();
+                    const isVisible = title.includes(query) || note.includes(query);
+                    
+                    card.style.display = isVisible ? 'flex' : 'none';
+                    
+                    if (isVisible) {
+                        visibleCount++;
+                        // Adicionar highlight
+                        const titleEl = card.querySelector('h3');
+                        const noteEl = card.querySelector('p');
+                        
+                        titleEl.innerHTML = highlightText(titleEl.textContent, query);
+                        noteEl.innerHTML = highlightText(noteEl.textContent, query);
+                    }
+                });
+                
+                // Mostrar mensagem se nenhum resultado
+                if (visibleCount === 0) {
+                    const existingMessage = dom.itemsGrid.querySelector('.search-no-results');
+                    if (!existingMessage) {
+                        const noResults = document.createElement('div');
+                        noResults.className = 'empty-state search-no-results';
+                        noResults.innerHTML = `
+                            <h3>Nenhum resultado encontrado</h3>
+                            <p>Tente uma busca diferente</p>
+                        `;
+                        dom.itemsGrid.appendChild(noResults);
+                    }
+                } else {
+                    const existingMessage = dom.itemsGrid.querySelector('.search-no-results');
+                    if (existingMessage) {
+                        existingMessage.remove();
+                    }
+                }
+            }, 300);
         };
 
+        // Atualizar ordem no Firestore
         const updateOrderInFirestore = async () => {
-            const batch = writeBatch(db);
-            const cards = dom.itemsGrid.querySelectorAll('.item-card');
-            cards.forEach((card, index) => {
-                const docRef = doc(db, 'items', card.dataset.id);
-                batch.update(docRef, { position: index });
-            });
-            await batch.commit();
+            try {
+                const batch = writeBatch(db);
+                const cards = dom.itemsGrid.querySelectorAll('.item-card');
+                
+                cards.forEach((card, index) => {
+                    const docRef = doc(db, 'items', card.dataset.id);
+                    batch.update(docRef, { position: index });
+                });
+                
+                await batch.commit();
+            } catch (error) {
+                console.error("Erro ao atualizar ordem:", error);
+            }
         };
 
-        // --- Event Listeners ---
-        dom.themeSwitch.addEventListener('click', () => 
-            applyTheme(dom.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light')
-        );
-        dom.addItemBtn.addEventListener('click', () => dom.choiceModal.classList.add('active'));
+        // Event Listeners
+        dom.themeSwitch.addEventListener('click', () => {
+            const newTheme = dom.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            applyTheme(newTheme);
+        });
+
+        dom.addItemBtn.addEventListener('click', () => {
+            dom.choiceModal.classList.add('active');
+        });
+
         document.getElementById('add-as-link').addEventListener('click', () => { 
             currentItemType = 'link'; 
             closeModal(dom.choiceModal); 
             openFormModal('add'); 
         });
+
         document.getElementById('add-as-note').addEventListener('click', () => { 
             currentItemType = 'note'; 
             closeModal(dom.choiceModal); 
             openFormModal('add'); 
         });
+
         dom.cancelBtn.addEventListener('click', () => closeModal(dom.formModal));
-        [dom.formModal, dom.choiceModal].forEach(modal => 
+
+        dom.closeViewBtn.addEventListener('click', () => closeModal(dom.viewModal));
+
+        dom.editFromViewBtn.addEventListener('click', () => {
+            closeModal(dom.viewModal);
+            if (currentEditingDoc) {
+                openFormModal('edit', currentEditingDoc);
+            }
+        });
+
+        // Fechar modais clicando fora
+        [dom.formModal, dom.choiceModal, dom.viewModal].forEach(modal => {
             modal.addEventListener('click', (e) => { 
                 if (e.target === modal) closeModal(modal); 
-            })
-        );
+            });
+        });
+
+        // Fechar modais com ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (dom.formModal.classList.contains('active')) closeModal(dom.formModal);
+                if (dom.choiceModal.classList.contains('active')) closeModal(dom.choiceModal);
+                if (dom.viewModal.classList.contains('active')) closeModal(dom.viewModal);
+            }
+        });
+
         dom.itemForm.addEventListener('submit', saveItem);
         dom.mottoEditor.addEventListener('click', updateMotto);
         dom.searchFilter.addEventListener('input', filterItems);
         
-        // --- Inicialização ---
+        // Limpar busca com ESC
+        dom.searchFilter.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                dom.searchFilter.value = '';
+                filterItems();
+                dom.searchFilter.blur();
+            }
+        });
+        
+        // Inicialização
         document.addEventListener('DOMContentLoaded', async () => {
-            applyTheme(localStorage.getItem('theme') || 'light');
+            // Aplicar tema salvo
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            applyTheme(savedTheme);
+            
+            // Carregar dados
             await fetchAll();
 
-            // Inicializa a funcionalidade de arrastar e soltar
+            // Inicializar drag & drop com animações suaves
             new Sortable(dom.itemsGrid, {
-                animation: 150,
+                animation: 200,
+                easing: "cubic-bezier(0.4, 0, 0.2, 1)",
                 ghostClass: 'sortable-ghost',
-                onEnd: updateOrderInFirestore
+                chosenClass: 'sortable-chosen',
+                dragClass: 'sortable-drag',
+                forceFallback: true,
+                fallbackTolerance: 3,
+                onStart: (evt) => {
+                    // Adicionar classe para feedback visual durante o drag
+                    document.body.style.cursor = 'grabbing';
+                },
+                onEnd: (evt) => {
+                    // Remover feedback visual
+                    document.body.style.cursor = '';
+                    // Atualizar posições no Firebase
+                    updateOrderInFirestore();
+                }
             });
         });
+
+        // PWA service worker (opcional)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(() => {
+                // Service worker não disponível, continuar normalmente
+            });
+        }
     </script>
 </body>
 </html>
-                    
