@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="pt-BR" data-theme="auto">
 <head>
@@ -85,6 +86,65 @@
   /* Prevent background scroll when any modal open */
   body.modal-open{ overflow:hidden; height:100dvh }
   @media (prefers-reduced-motion: reduce){ *{ transition:none !important; animation:none !important } }
+
+  
+
+
+  
+
+
+  /* ---------- Mobile: Apple-like cell layout ---------- */
+  @media (max-width: 640px){
+    .wrap{ padding: 18px 14px calc(84px + env(safe-area-inset-bottom)); }
+    .links{ gap: 10px; }
+
+    /* iOS-like list cell with full-width title */
+    .tile{
+      display: grid;
+      grid-template-columns: 36px 1fr auto;
+      grid-template-rows: auto auto;
+      grid-template-areas:
+        "icon title actions"
+        "icon desc  actions";
+      gap: 8px 12px;
+      padding: 14px 14px;
+      border-radius: 16px;
+    }
+    .tile .icon   { grid-area: icon; align-self: start; width:22px; height:22px; }
+    .tile .txt    { grid-area: title; min-width: 0; }
+    .tile .meta   { grid-area: actions; align-self: start; justify-self: end; }
+    .lbl{ font-weight: 700; font-size: 1.02rem; line-height: 1.25; white-space: normal; overflow: visible; text-overflow: clip; }
+    .desc{
+      grid-area: desc;
+      margin-top: 2px;
+      white-space: normal;
+      color: var(--muted);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      font-size: .92rem;
+      line-height: 1.35;
+    }
+    .iconbtn{ width: 42px; height: 42px; }
+    /* Drag handle: show only while reordenar; positioned before icon to preserve left edge */
+    .tile .handle{ display: none; }
+    body.reorder .tile .handle{
+      display: grid;
+      place-items: center;
+      grid-area: icon;
+      margin-left: -6px;
+      opacity: .7;
+    }
+  }
+
+
+  /* ---- Chips: uniform height (incl. theme icon) ---- */
+  .chip{ display:flex; align-items:center; justify-content:center; height:40px; padding:0 14px; gap:8px; }
+  .chip .icon{ width:18px; height:18px; display:block; }
+  /* Toast clickable look when offering Undo */
+  .toast.clickable{ cursor:pointer; text-decoration:underline; }
+
 </style>
 </head>
 <body>
@@ -109,6 +169,13 @@
     <symbol id="i-note" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
       <path d="M6 3h9l4 4v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path><path d="M15 3v5h5"></path>
     </symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l-1.5-1.5M20.5 20.5L19 19M5 19l-1.5 1.5M20.5 3.5L19 5"></path>
+    </symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </symbol>
   </svg>
 
   <main class="wrap">
@@ -128,7 +195,7 @@
         <button class="chip" id="chipLinks" aria-pressed="false">Links</button>
         <button class="chip" id="chipNotes" aria-pressed="false">Notas</button>
         <button class="chip" id="reorderToggle" aria-pressed="false" title="Reordenar (alça à esquerda)">Reordenar</button>
-        <button class="chip" id="themeToggle" aria-pressed="false" title="Alternar tema">Tema: Auto</button>
+        <button class="chip" id="themeToggle" aria-label="Alternar tema" title="Alternar tema"><svg class="icon" id="themeIcon"><use href="#i-moon"></use></svg></button>
         <div class="fine" style="margin-left:auto; color:var(--muted)">Atualizado em 2025-08-08 12:21</div>
       </div>
 
@@ -223,8 +290,42 @@
   const $ = (sel, root=document) => root.querySelector(sel);
   const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
   function toast(msg, ok=false){
-    const t = $("#toast"); t.textContent = msg; if(ok) t.classList.add("ok"); else t.classList.remove("ok");
-    t.style.display = "block"; setTimeout(()=> t.style.display="none", 1600);
+    const t = $("#toast");
+    t.classList.remove("clickable");
+    t.onclick = null;
+    t.textContent = msg;
+    if(ok) t.classList.add("ok"); else t.classList.remove("ok");
+    t.style.display = "block";
+    setTimeout(()=> t.style.display="none", 1600);
+  }
+  // Undo toast
+  let __undoTimer = null;
+  let __lastDeleted = null; // {id, data}
+  async function deleteWithUndo(id, data){
+    try{
+      await deleteDoc(doc(itemsCol, id));
+      __lastDeleted = { id, data };
+      const t = $("#toast");
+      t.classList.add("clickable");
+      t.innerHTML = "Item apagado — <strong>Desfazer</strong>";
+      t.style.display = "block";
+      t.onclick = async ()=>{
+        if(__undoTimer){ clearTimeout(__undoTimer); __undoTimer = null; }
+        t.onclick = null; t.classList.remove("clickable");
+        if(__lastDeleted){
+          await setDoc(doc(itemsCol, __lastDeleted.id), __lastDeleted.data);
+          __lastDeleted = null;
+          toast("Item restaurado.", true);
+        }
+      };
+      if(__undoTimer){ clearTimeout(__undoTimer); }
+      __undoTimer = setTimeout(()=>{
+        t.style.display = "none";
+        t.onclick = null; t.classList.remove("clickable");
+        __lastDeleted = null;
+        __undoTimer = null;
+      }, 5000);
+    }catch(e){ console.error(e); toast("Erro ao apagar."); }
   }
   const svg = (id, cls="icon") => { const s=document.createElementNS("http://www.w3.org/2000/svg","svg"); s.setAttribute("class",cls); s.setAttribute("viewBox","0 0 24 24"); s.innerHTML=`<use href="#${id}"></use>`; return s; };
   function lockScroll(on){ document.body.classList.toggle('modal-open', !!on); }
@@ -232,11 +333,17 @@
   // ===================== THEME =====================
   const themeBtn = $("#themeToggle");
   function applyTheme(){
-    const t = localStorage.getItem("theme-eac") || "auto";
+    const t = localStorage.getItem("theme-eac") || "light";
     document.documentElement.setAttribute("data-theme", t);
-    themeBtn.textContent = "Tema: " + (t==="auto" ? "Auto" : t==="light" ? "Claro" : "Escuro");
+    const useEl = document.querySelector("#themeIcon use");
+    if(useEl){ useEl.setAttribute("href", t==="light" ? "#i-moon" : "#i-sun"); }
   }
-  themeBtn.addEventListener("click", ()=>{ const t = localStorage.getItem("theme-eac") || "auto"; const next = t==="auto" ? "light" : t==="light" ? "dark" : "auto"; localStorage.setItem("theme-eac", next); applyTheme(); });
+  themeBtn.addEventListener("click", ()=>{
+    const t = localStorage.getItem("theme-eac") || "light";
+    const next = t === "light" ? "dark" : "light";
+    localStorage.setItem("theme-eac", next);
+    applyTheme();
+  });
 
   // ===================== RENDER =====================
   const listEl = $("#list");
@@ -267,7 +374,7 @@
       const bEdit=document.createElement("button"); bEdit.className="iconbtn"; bEdit.title="Editar"; bEdit.appendChild(svg("i-edit"));
       bEdit.addEventListener("click", (e)=>{ e.preventDefault(); e.stopPropagation(); openEditor(id, data); });
       const bDel=document.createElement("button"); bDel.className="iconbtn"; bDel.title="Apagar"; bDel.appendChild(svg("i-trash"));
-      bDel.addEventListener("click", async (e)=>{ e.preventDefault(); e.stopPropagation(); if(confirm("Apagar este item?")) await deleteDoc(doc(itemsCol, id)); });
+      bDel.addEventListener("click", async (e)=>{ e.preventDefault(); e.stopPropagation(); if(confirm("Apagar este item?")) await deleteWithUndo(id, data); });
       bar.appendChild(bEdit); bar.appendChild(bDel); meta.appendChild(bar);
 
       tile.appendChild(handle); tile.appendChild(icon); tile.appendChild(txt); tile.appendChild(meta);
@@ -291,7 +398,7 @@
   $("#noteCloseBtn").addEventListener("click", ()=> closeModal(noteModal));
   $("#noteModal").addEventListener("click", (e)=>{ if(e.target.id==="noteModal") closeModal(noteModal); });
   $("#noteEditBtn").addEventListener("click", ()=>{ if(!noteViewingId) return; const it = itemsCache.find(d=>d.id===noteViewingId); if(it) openEditor(it.id, it.data); closeModal(noteModal); });
-  $("#noteDeleteBtn").addEventListener("click", async ()=>{ if(!noteViewingId) return; if(confirm("Apagar esta nota?")){ await deleteDoc(doc(itemsCol, noteViewingId)); closeModal(noteModal); } });
+  $("#noteDeleteBtn").addEventListener("click", async ()=>{ if(!noteViewingId) return; if(confirm("Apagar esta nota?")){ const it = itemsCache.find(d=>d.id===noteViewingId); if(it){ await deleteWithUndo(noteViewingId, it.data); } closeModal(noteModal); } });
 
   function openNoteViewer(id, data){
     noteViewingId = id; openModal(noteModal);
@@ -339,7 +446,7 @@
   });
 
   eDeleteBtn.addEventListener("click", async ()=>{
-    if(editingId && confirm("Apagar este item?")){ await deleteDoc(doc(itemsCol, editingId)); closeModal(editorModal); }
+    if(editingId && confirm("Apagar este item?")){ const it = itemsCache.find(d=>d.id===editingId); const data = it ? it.data : { type:eType.value, title:eTitle.value, url:eUrl.value, note:eContent.value }; await deleteWithUndo(editingId, data); closeModal(editorModal); }
   });
 
   // Modal helpers
@@ -377,6 +484,7 @@
   onSnapshot(itemsCol, (snap)=>{ itemsCache = snap.docs.map(d=>({ id:d.id, data:d.data() })); render(); }, (err)=>console.error(err));
 
   // ===================== INIT =====================
+  if(!localStorage.getItem('theme-eac')) localStorage.setItem('theme-eac','light');
   applyTheme(); render();
 </script>
 </body>
