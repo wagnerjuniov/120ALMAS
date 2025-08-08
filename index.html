@@ -156,6 +156,22 @@
   }
   html { -webkit-text-size-adjust: 100%; }
 
+
+  /* ---- Mobile: compact actions column; no overlap with text ---- */
+  @media (max-width: 640px){
+    .tile{
+      grid-template-columns: 36px 1fr 120px; /* icon | text | actions */
+      grid-template-areas:
+        "icon title actions"
+        "icon desc  actions";
+    }
+    .tile .meta{ grid-area: actions; align-self: start; justify-self: end; width:120px; }
+    .iconbar{ display:flex; gap:6px; flex-wrap:nowrap; }
+    .iconbtn{ width:36px; height:36px; }
+    .txt{ min-width:0; }
+    .lbl{ white-space: normal; }
+  }
+
 </style>
 </head>
 <body>
