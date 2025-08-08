@@ -145,6 +145,17 @@
   /* Toast clickable look when offering Undo */
   .toast.clickable{ cursor:pointer; text-decoration:underline; }
 
+
+  /* ---- Prevent iOS focus zoom: ensure >=16px on controls ---- */
+  .search input,
+  .modal .field input,
+  .modal .field textarea,
+  .modal .field select,
+  input, textarea, select {
+    font-size: 16px !important;
+  }
+  html { -webkit-text-size-adjust: 100%; }
+
 </style>
 </head>
 <body>
