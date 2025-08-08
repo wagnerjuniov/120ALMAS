@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="pt-BR" data-theme="auto">
 <head>
@@ -172,6 +171,11 @@
     .lbl{ white-space: normal; }
   }
 
+
+  /* ---- FAB: ensure always on top & clickable ---- */
+  .fab{ z-index: 200; pointer-events: auto; }
+  .fab button{ touch-action: manipulation; cursor: pointer; }
+
 </style>
 </head>
 <body>
@@ -231,7 +235,7 @@
   </main>
 
   <!-- Add button -->
-  <div class="fab"><button id="addBtn" title="Adicionar">+</button></div>
+  <div class="fab"><button id="addBtn" type="button" title="Adicionar" onclick="window.__openAdd && window.__openAdd()">+</button></div>
 
   <div id="toast" class="toast" role="status" aria-live="assertive"></div>
 
