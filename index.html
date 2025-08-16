@@ -1,522 +1,1591 @@
-<!doctype html>
-<html lang="pt-BR" data-theme="auto">
+
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>XVI EAC — Hub</title>
-<meta name="theme-color" content="#000">
-<meta name="color-scheme" content="light dark">
-<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>XVI EAC</title>
+<meta name="theme-color" content="#000000">
+<meta name="format-detection" content="telephone=no">
+
+<!-- SF Pro Display Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<style>
+  @font-face {
+    font-family: 'SF Pro Display';
+    src: local('-apple-system'), local('BlinkMacSystemFont');
+    font-weight: 100 900;
+  }
+</style>
 
 <!-- SortableJS -->
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
 
 <style>
+  /* Apple Design System Variables */
   :root {
-    --bg: #fbfbfd; --card:#ffffff; --text:#0f172a; --muted:#6e6e73; --border:#e2e8f0; --link:#0071e3;
-    --shadow: 0 1px 1px rgba(0,0,0,.06), 0 10px 24px rgba(0,0,0,.06);
-    --radius: 18px; --warn:#ff3b30; --ok:#34c759;
+    /* Colors */
+    --apple-gray-1: #f5f5f7;
+    --apple-gray-2: #e8e8ed;
+    --apple-gray-3: #d2d2d7;
+    --apple-gray-4: #86868b;
+    --apple-gray-5: #515154;
+    --apple-gray-6: #1d1d1f;
+    --apple-black: #000000;
+    --apple-white: #ffffff;
+    --apple-blue: #0071e3;
+    --apple-red: #ff3b30;
+    --apple-green: #30d158;
+    
+    /* Layout */
+    --safe-area-inset-top: env(safe-area-inset-top);
+    --safe-area-inset-bottom: env(safe-area-inset-bottom);
+    --safe-area-inset-left: env(safe-area-inset-left);
+    --safe-area-inset-right: env(safe-area-inset-right);
+    
+    /* Typography */
+    --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    
+    /* Animation */
+    --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+    
+    /* Haptic feedback timing */
+    --haptic-tap: 10ms;
   }
-  @media (prefers-color-scheme: dark){
-    :root { --bg:#020617; --card:#0b1220; --text:#f5f5f7; --muted:#a1a1a6; --border:#1e293b; --link:#0a84ff; --shadow: 0 1px 1px rgba(255,255,255,.02), 0 10px 24px rgba(0,0,0,.5); }
+
+  /* Reset */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
   }
-  html[data-theme="light"] { color-scheme: light; --bg:#fbfbfd; --card:#ffffff; --text:#0f172a; --muted:#6e6e73; --border:#e2e8f0; --link:#0071e3; --shadow: 0 1px 1px rgba(0,0,0,.06), 0 10px 24px rgba(0,0,0,.06); }
-  html[data-theme="dark"]  { color-scheme: dark;  --bg:#020617; --card:#0b1220; --text:#f5f5f7; --muted:#a1a1a6; --border:#1e293b; --link:#0a84ff; --shadow: 0 1px 1px rgba(255,255,255,.02), 0 10px 24px rgba(0,0,0,.5); }
 
-  *{box-sizing:border-box} html,body{height:100%}
-  body{ margin:0; font-family:-apple-system,system-ui,"SF Pro Text","SF Pro Display",Segoe UI,Roboto,Helvetica Neue,Arial;
-        background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; line-height:1.4 }
-  .wrap{max-width:880px; margin:0 auto; padding:32px 20px calc(96px + env(safe-area-inset-bottom))}
-  .hero{ border-radius: calc(var(--radius)+6px); padding:clamp(18px,4vw,28px); background:var(--card); border:1px solid var(--border); box-shadow:var(--shadow) }
-  .row{display:flex; gap:18px; align-items:center; flex-wrap:wrap}
-  .brand{ width:64px; height:64px; border-radius:20px; display:grid; place-items:center; border:1px solid var(--border) }
-  h1{ font-size:clamp(28px,4vw,40px); letter-spacing:-.02em; margin:0 }
-  .sub{ color:var(--muted); font-size:.95rem; margin-top:4px }
-  .tagline{ margin-top:10px; font-weight:600; display:inline-block; padding:8px 12px; border-radius:12px; background:rgba(0,0,0,.04); border:1px solid var(--border) }
-  @media (prefers-color-scheme: dark){ .tagline{ background:rgba(255,255,255,.06) } }
-  .tagline[contenteditable="true"]{ outline:2px solid var(--link); outline-offset:2px }
+  /* Base */
+  html {
+    font-family: var(--font);
+    font-size: 17px;
+    line-height: 1.47059;
+    font-weight: 400;
+    letter-spacing: -0.022em;
+    background: var(--apple-black);
+    color: var(--apple-white);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overscroll-behavior: none;
+  }
 
-  .bar{display:flex; gap:10px; align-items:center; margin-top:16px; flex-wrap:wrap}
-  .search{ flex:1 1 260px; display:flex; align-items:center; gap:8px; background:var(--card); border:1px solid var(--border); border-radius:14px; padding:10px 12px; box-shadow:var(--shadow) }
-  .search input{ border:0; outline:0; background:transparent; color:inherit; flex:1 }
-  .chip{ border:1px solid var(--border); background:var(--card); padding:10px 14px; border-radius:999px; cursor:pointer; box-shadow:var(--shadow); font-weight:700; touch-action:manipulation }
-  .chip[aria-pressed="true"]{ border-color:var(--link) }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    overflow-x: hidden;
+    position: relative;
+  }
 
-  .links{ margin-top:14px; display:grid; gap:12px }
-  .item{ position:relative }
-  .tile{ display:flex; align-items:center; gap:14px; padding:18px 20px; border-radius:var(--radius); background:var(--card); border:1px solid var(--border); text-decoration:none; color:inherit; box-shadow:var(--shadow) }
-  .tile:hover{ transform:translateY(-2px); border-color:color-mix(in srgb, var(--link) 50%, var(--border)) }
-  .tile .handle{ width:24px; height:24px; display:grid; place-items:center; opacity:.34; user-select:none; touch-action:none }
-  body.reorder .tile .handle{ cursor:grab; opacity:.6 }
-  .icon{ width:22px; height:22px; flex:0 0 22px }
-  .txt{ display:flex; flex-direction:column; gap:4px; min-width:0 }
-  .lbl{ font-weight:800; letter-spacing:-.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
-  .desc{ color:var(--muted); font-size:.95rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
-  .meta{ margin-left:auto; display:flex; align-items:center; gap:6px }
-  .iconbar{ display:flex; align-items:center; gap:4px }
-  .iconbtn{ appearance:none; border:0; background:transparent; width:42px; height:42px; border-radius:50%; display:grid; place-items:center; cursor:pointer; -webkit-tap-highlight-color:transparent }
-  .iconbtn:hover{ background:rgba(0,0,0,.06) }
-  html[data-theme="dark"] .iconbtn:hover{ background:rgba(255,255,255,.08) }
+  /* Typography */
+  .display {
+    font-size: 32px;
+    line-height: 1.125;
+    font-weight: 700;
+    letter-spacing: 0.004em;
+  }
 
-  /* Modal base (viewer + editor) */
-  .modal{ position:fixed; inset:0; background:rgba(15,23,42,.55); backdrop-filter:blur(4px); display:none; align-items:center; justify-content:center; z-index:90; overscroll-behavior:contain }
-  .modal.open{ display:flex }
-  .modal .box{ width:min(720px, 94%); max-height: min(88dvh, 720px); overflow:auto; background:var(--card); border:1px solid var(--border); border-radius:16px; box-shadow:var(--shadow); padding:18px; animation:pop .18s ease }
-  @keyframes pop{ from{ transform:scale(.96); opacity:.0 } to{ transform:scale(1); opacity:1 } }
-  .modal h3{ margin:0 0 6px 0; font-size:1.2rem }
-  .modal pre{ white-space:pre-wrap; word-wrap:break-word; margin:0; color:var(--text); font-family:inherit; line-height:1.5 }
-  .modal .top{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:6px; position:sticky; top:0; background:var(--card); padding-bottom:6px; z-index:1 }
-  .modal .close{ border:0; background:transparent; width:40px; height:40px; border-radius:50%; display:grid; place-items:center; cursor:pointer }
-  .modal .close:hover{ background:rgba(0,0,0,.06) }
-  html[data-theme="dark"] .modal .close:hover{ background:rgba(255,255,255,.08) }
-  .modal .field{ display:flex; flex-direction:column; gap:6px; margin:10px 0 }
-  .modal .field input, .modal .field textarea, .modal .field select{ border:1px solid var(--border); background:var(--bg); color:inherit; border-radius:10px; padding:12px 14px; font:inherit }
-  .modal .row-end{ display:flex; gap:10px; justify-content:flex-end; margin-top:8px; position:sticky; bottom:0; background:var(--card); padding-top:6px }
-  .btn-mini{ border:1px solid var(--border); background:var(--card); border-radius:12px; padding:10px 14px; box-shadow:var(--shadow); font-weight:700; cursor:pointer; touch-action:manipulation }
-  .btn-mini.warn{ border-color:var(--warn); color:var(--warn) }
+  .headline {
+    font-size: 17px;
+    line-height: 1.23536;
+    font-weight: 600;
+    letter-spacing: -0.022em;
+  }
 
-  /* Floating add button */
-  .fab{ position:fixed; right:20px; bottom:calc(20px + env(safe-area-inset-bottom)); z-index:70 }
-  .fab button{ width:60px; height:60px; border-radius:50%; border:1px solid var(--border); background:var(--card); box-shadow:var(--shadow); font-size:28px; font-weight:700; cursor:pointer }
+  .body {
+    font-size: 17px;
+    line-height: 1.47059;
+    font-weight: 400;
+    letter-spacing: -0.022em;
+  }
 
-  .toast{ position:fixed; left:50%; bottom:calc(24px + env(safe-area-inset-bottom)); transform:translateX(-50%); background:var(--card); border:1px solid var(--border); border-radius:12px; padding:10px 14px; box-shadow:var(--shadow); display:none; z-index:95 }
-  .ok{ color:var(--ok); font-weight:700 }
+  .caption {
+    font-size: 15px;
+    line-height: 1.26667;
+    font-weight: 400;
+    letter-spacing: -0.021em;
+    color: var(--apple-gray-4);
+  }
 
-  /* Prevent background scroll when any modal open */
-  body.modal-open{ overflow:hidden; height:100dvh }
-  @media (prefers-reduced-motion: reduce){ *{ transition:none !important; animation:none !important } }
+  .footnote {
+    font-size: 13px;
+    line-height: 1.38462;
+    font-weight: 400;
+    letter-spacing: -0.008em;
+    color: var(--apple-gray-4);
+  }
 
-  
+  /* Container */
+  .container {
+    min-height: 100vh;
+    background: var(--apple-black);
+    padding-top: var(--safe-area-inset-top);
+    padding-bottom: calc(88px + var(--safe-area-inset-bottom));
+  }
 
+  /* Header */
+  .header {
+    padding: 20px;
+    padding-top: max(20px, var(--safe-area-inset-top));
+  }
 
-  
+  .header-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
 
+  .icon-container {
+    width: 60px;
+    height: 60px;
+    background: var(--apple-gray-6);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
 
-  /* ---------- Mobile: Apple-like cell layout ---------- */
-  @media (max-width: 640px){
-    .wrap{ padding: 18px 14px calc(84px + env(safe-area-inset-bottom)); }
-    .links{ gap: 10px; }
+  .icon-container svg {
+    width: 32px;
+    height: 32px;
+    stroke: var(--apple-gray-1);
+    stroke-width: 1.5;
+    fill: none;
+  }
 
-    /* iOS-like list cell with full-width title */
-    .tile{
-      display: grid;
-      grid-template-columns: 36px 1fr auto;
-      grid-template-rows: auto auto;
-      grid-template-areas:
-        "icon title actions"
-        "icon desc  actions";
-      gap: 8px 12px;
-      padding: 14px 14px;
-      border-radius: 16px;
+  .header-text h1 {
+    margin: 0;
+    margin-bottom: 4px;
+  }
+
+  .tagline {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 6px 12px;
+    background: var(--apple-gray-6);
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--apple-gray-1);
+    outline: none;
+    transition: all 0.2s var(--ease-out-quint);
+  }
+
+  .tagline:focus {
+    background: var(--apple-gray-5);
+    transform: scale(1.02);
+  }
+
+  /* Search Bar */
+  .search-section {
+    padding: 0 20px 16px;
+  }
+
+  .search-bar {
+    background: var(--apple-gray-6);
+    border-radius: 10px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    transition: all 0.2s var(--ease-out-quint);
+  }
+
+  .search-bar:focus-within {
+    background: var(--apple-gray-5);
+  }
+
+  .search-icon {
+    width: 16px;
+    height: 16px;
+    stroke: var(--apple-gray-3);
+    stroke-width: 2;
+    flex-shrink: 0;
+  }
+
+  .search-input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--apple-white);
+    font-size: 17px;
+    font-family: var(--font);
+    letter-spacing: -0.022em;
+  }
+
+  .search-input::placeholder {
+    color: var(--apple-gray-4);
+  }
+
+  /* Filter Pills */
+  .filter-section {
+    padding: 0 20px 20px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .filter-section::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pill {
+    padding: 6px 16px;
+    background: var(--apple-gray-6);
+    border: none;
+    border-radius: 20px;
+    color: var(--apple-gray-1);
+    font-size: 15px;
+    font-weight: 500;
+    font-family: var(--font);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s var(--ease-out-quint);
+    flex-shrink: 0;
+    outline: none;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pill:active {
+    transform: scale(0.95);
+  }
+
+  .pill.active {
+    background: var(--apple-gray-1);
+    color: var(--apple-black);
+  }
+
+  .pill.icon-pill {
+    width: 36px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pill svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    fill: none;
+  }
+
+  /* List */
+  .list {
+    padding: 0 20px;
+  }
+
+  .list-item {
+    background: var(--apple-gray-6);
+    border-radius: 12px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    transition: all 0.2s var(--ease-out-quint);
+    position: relative;
+  }
+
+  .list-item:active {
+    transform: scale(0.98);
+    opacity: 0.7;
+  }
+
+  .list-item-content {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 60px;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+  }
+
+  .drag-handle {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: -24px;
+    opacity: 0;
+    transition: all 0.3s var(--ease-out-quint);
+    cursor: grab;
+  }
+
+  .reorder-mode .drag-handle {
+    left: 8px;
+    opacity: 0.4;
+  }
+
+  .reorder-mode .list-item-content {
+    padding-left: 40px;
+  }
+
+  .list-icon {
+    width: 20px;
+    height: 20px;
+    stroke: var(--apple-gray-3);
+    stroke-width: 1.5;
+    fill: none;
+    flex-shrink: 0;
+  }
+
+  .list-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .list-title {
+    font-weight: 600;
+    margin-bottom: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .list-subtitle {
+    color: var(--apple-gray-4);
+    font-size: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .list-actions {
+    display: flex;
+    gap: 4px;
+    margin-left: auto;
+    opacity: 0;
+    transition: opacity 0.2s var(--ease-out-quint);
+  }
+
+  .list-item:hover .list-actions {
+    opacity: 1;
+  }
+
+  .action-button {
+    width: 32px;
+    height: 32px;
+    background: none;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s var(--ease-out-quint);
+    outline: none;
+  }
+
+  .action-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .action-button:active {
+    transform: scale(0.9);
+  }
+
+  .action-button svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--apple-gray-3);
+    stroke-width: 1.5;
+    fill: none;
+  }
+
+  /* Floating Action Button */
+  .fab {
+    position: fixed;
+    right: 20px;
+    bottom: calc(20px + var(--safe-area-inset-bottom));
+    width: 56px;
+    height: 56px;
+    background: var(--apple-blue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(0, 113, 227, 0.4);
+    cursor: pointer;
+    transition: all 0.2s var(--ease-out-quint);
+    z-index: 100;
+  }
+
+  .fab:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 32px rgba(0, 113, 227, 0.5);
+  }
+
+  .fab:active {
+    transform: scale(0.95);
+  }
+
+  .fab svg {
+    width: 24px;
+    height: 24px;
+    stroke: white;
+    stroke-width: 2;
+    fill: none;
+  }
+
+  /* Modal */
+  .modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s var(--ease-out-quint);
+    z-index: 200;
+    padding: 20px;
+    padding-bottom: var(--safe-area-inset-bottom);
+  }
+
+  .modal.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modal-content {
+    width: 100%;
+    max-width: 500px;
+    background: var(--apple-gray-6);
+    border-radius: 14px;
+    transform: translateY(100%);
+    transition: transform 0.4s var(--ease-out-quint);
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal.active .modal-content {
+    transform: translateY(0);
+  }
+
+  .modal-header {
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .modal-title {
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .modal-close {
+    width: 30px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s var(--ease-out-quint);
+  }
+
+  .modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .modal-close svg {
+    width: 16px;
+    height: 16px;
+    stroke: var(--apple-gray-3);
+    stroke-width: 2;
+  }
+
+  .modal-body {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .form-label {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--apple-gray-3);
+  }
+
+  .form-input,
+  .form-select,
+  .form-textarea {
+    background: var(--apple-black);
+    border: none;
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: var(--apple-white);
+    font-size: 17px;
+    font-family: var(--font);
+    outline: none;
+    transition: all 0.2s var(--ease-out-quint);
+  }
+
+  .form-input:focus,
+  .form-select:focus,
+  .form-textarea:focus {
+    background: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.3);
+  }
+
+  .form-textarea {
+    resize: none;
+    min-height: 120px;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .button {
+    flex: 1;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 600;
+    font-family: var(--font);
+    cursor: pointer;
+    transition: all 0.2s var(--ease-out-quint);
+    outline: none;
+  }
+
+  .button-primary {
+    background: var(--apple-blue);
+    color: white;
+  }
+
+  .button-primary:hover {
+    background: #0077ed;
+  }
+
+  .button-primary:active {
+    transform: scale(0.98);
+  }
+
+  .button-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--apple-gray-1);
+  }
+
+  .button-secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .button-danger {
+    background: var(--apple-red);
+    color: white;
+  }
+
+  .button-danger:hover {
+    background: #ff453a;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: calc(100px + var(--safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--apple-gray-5);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 24px;
+    font-size: 15px;
+    font-weight: 500;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s var(--ease-out-quint);
+    z-index: 300;
+  }
+
+  .toast.active {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .toast.success {
+    background: var(--apple-green);
+  }
+
+  .toast.error {
+    background: var(--apple-red);
+  }
+
+  /* Note Viewer */
+  .note-viewer {
+    padding: 20px;
+    background: var(--apple-black);
+    border-radius: 12px;
+    min-height: 200px;
+  }
+
+  .note-content {
+    font-size: 17px;
+    line-height: 1.52941;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* Animations */
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
     }
-    .tile .icon   { grid-area: icon; align-self: start; width:22px; height:22px; }
-    .tile .txt    { grid-area: title; min-width: 0; }
-    .tile .meta   { grid-area: actions; align-self: start; justify-self: end; }
-    .lbl{ font-weight: 700; font-size: 1.02rem; line-height: 1.25; white-space: normal; overflow: visible; text-overflow: clip; }
-    .desc{
-      grid-area: desc;
-      margin-top: 2px;
-      white-space: normal;
-      color: var(--muted);
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      font-size: .92rem;
-      line-height: 1.35;
+    to {
+      transform: translateY(0);
+      opacity: 1;
     }
-    .iconbtn{ width: 42px; height: 42px; }
-    /* Drag handle: show only while reordenar; positioned before icon to preserve left edge */
-    .tile .handle{ display: none; }
-    body.reorder .tile .handle{
-      display: grid;
-      place-items: center;
-      grid-area: icon;
-      margin-left: -6px;
-      opacity: .7;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .fade-in {
+    animation: fadeIn 0.3s var(--ease-out-quint);
+  }
+
+  /* Responsive */
+  @media (min-width: 768px) {
+    .modal {
+      align-items: center;
+      padding: 40px;
+    }
+
+    .modal-content {
+      border-radius: 20px;
+    }
+
+    .list-actions {
+      opacity: 0.3;
+    }
+  }
+
+  /* Loading State */
+  .loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+
+  .spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--apple-gray-5);
+    border-top-color: var(--apple-gray-1);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Haptic Feedback (simulated with micro-animations) */
+  .haptic {
+    animation: haptic var(--haptic-tap) var(--ease-out-quint);
+  }
+
+  @keyframes haptic {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(0.98);
+    }
+  }
+
+  /* Icons */
+  .icon-church {
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Prevent text selection except in inputs */
+  input, textarea {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+
+  /* iOS PWA Styles */
+  @media (display-mode: standalone) {
+    .container {
+      padding-top: calc(44px + var(--safe-area-inset-top));
     }
   }
 
 
-  /* ---- Chips: uniform height (incl. theme icon) ---- */
-  .chip{ display:flex; align-items:center; justify-content:center; height:40px; padding:0 14px; gap:8px; }
-  .chip .icon{ width:18px; height:18px; display:block; }
-  /* Toast clickable look when offering Undo */
-  .toast.clickable{ cursor:pointer; text-decoration:underline; }
+/* ==== THEME OVERRIDES (Light/Dark) ==== */
 
+/* Always show list item actions */
+.list-actions { opacity: 1 !important; }
+.list-item:hover .list-actions { opacity: 1 !important; }
 
-  /* ---- Prevent iOS focus zoom: ensure >=16px on controls ---- */
-  .search input,
-  .modal .field input,
-  .modal .field textarea,
-  .modal .field select,
-  input, textarea, select {
-    font-size: 16px !important;
-  }
-  html { -webkit-text-size-adjust: 100%; }
+/* Theme icon visibility */
+.theme-icon .sun { display: none; }
+.theme-icon .moon { display: block; }
+:root[data-theme="light"] .theme-icon .sun { display: block; }
+:root[data-theme="light"] .theme-icon .moon { display: none; }
 
+/* Apple-like Light theme palette */
+:root[data-theme="light"] {
+  --apple-black: #ffffff;   /* page background */
+  --apple-white: #1d1d1f;   /* primary text */
+  --apple-gray-6: #f5f5f7;  /* surfaces */
+  --apple-gray-5: #e8e8ed;
+  --apple-gray-4: #6e6e73;  /* secondary text */
+  --apple-gray-3: #d2d2d7;
+  --apple-gray-2: #e8e8ed;
+  --apple-gray-1: #ffffff;  /* accents */
+}
 
-  /* ---- Mobile: compact actions column; no overlap with text ---- */
-  @media (max-width: 640px){
-    .tile{
-      grid-template-columns: 36px 1fr 120px; /* icon | text | actions */
-      grid-template-areas:
-        "icon title actions"
-        "icon desc  actions";
-    }
-    .tile .meta{ grid-area: actions; align-self: start; justify-self: end; width:120px; }
-    .iconbar{ display:flex; gap:6px; flex-wrap:nowrap; }
-    .iconbtn{ width:36px; height:36px; }
-    .txt{ min-width:0; }
-    .lbl{ white-space: normal; }
-  }
+</style>
 
+<style id="contrast-fixes">
 
-  /* ---- FAB: ensure always on top & clickable ---- */
-  .fab{ z-index: 200; pointer-events: auto; }
-  .fab button{ touch-action: manipulation; cursor: pointer; }
+/* === ChatGPT Contrast & FAB Refinements (Apple-like) === */
+
+/* Always-visible actions (keep) */
+.list-actions { opacity: 1 !important; }
+.list-item:hover .list-actions { opacity: 1 !important; }
+
+/* LIGHT THEME: stronger contrast for pills and action icons */
+:root[data-theme="light"] .pill {
+  background: var(--apple-gray-2) !important;  /* soft light surface */
+  color: #1d1d1f !important;                   /* near-black text */
+}
+:root[data-theme="light"] .pill.active {
+  background: var(--apple-gray-3) !important;
+  color: #1d1d1f !important;
+}
+:root[data-theme="light"] .pill.icon-pill { color: #1d1d1f !important; }
+:root[data-theme="light"] .action-button svg { stroke: #1d1d1f !important; }
+:root[data-theme="light"] .action-button:hover { background: rgba(0,0,0,0.08) !important; }
+
+/* DARK THEME: brighter action icons for proper contrast */
+:root[data-theme="dark"] .action-button svg { stroke: var(--apple-gray-1) !important; }
+:root[data-theme="dark"] .action-button:hover { background: rgba(255,255,255,0.12) !important; }
+
+/* Search input in light keeps strong text contrast */
+:root[data-theme="light"] .search-input { color: #1d1d1f !important; }
+:root[data-theme="light"] .search-input::placeholder { color: #6e6e73 !important; }
+
+/* Floating Action Button (“+”) – remove border look, add subtle neutral shadow */
+.fab {
+  border: none !important;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.18), 0 1px 3px rgba(0,0,0,0.12) !important;
+}
+.fab:hover {
+  box-shadow: 0 12px 24px rgba(0,0,0,0.20), 0 2px 6px rgba(0,0,0,0.12) !important;
+}
+
+/* Ensure list item titles/labels have correct contrast in light */
+:root[data-theme="light"] .list-item-title,
+:root[data-theme="light"] .list-item-link,
+:root[data-theme="light"] .section-title,
+:root[data-theme="light"] .header-title,
+:root[data-theme="light"] label {
+  color: #1d1d1f !important;
+}
+/* Secondary text / meta in light */
+:root[data-theme="light"] .meta, 
+:root[data-theme="light"] .list-item-subtitle, 
+:root[data-theme="light"] small {
+  color: #6e6e73 !important;
+}
+
+</style>
+
+<style id="contrast-fixes-pass2">
+
+/* === Contrast pass 2 (targeted) === */
+
+/* Tagline bubble text must be near-black on light */
+:root[data-theme="light"] .tagline {
+  color: #1d1d1f !important;
+  background: var(--apple-gray-2) !important; /* subtle pill */
+}
+
+/* Search icon: ensure visible in both themes */
+:root[data-theme="light"] .search-icon { stroke: #6e6e73 !important; }
+:root[data-theme="dark"]  .search-icon { stroke: #ffffff !important; }
+
+/* Action icons (copy/edit/delete) stronger in dark */
+:root[data-theme="dark"] .action-button svg { stroke: #ffffff !important; }
+
+/* Slightly stronger contrast for list item titles in dark */
+:root[data-theme="dark"] .list-item-title,
+:root[data-theme="dark"] .list-item-link { color: #f5f5f7 !important; }
+
+/* Pills text/icon in dark remain readable */
+:root[data-theme="dark"] .pill,
+:root[data-theme="dark"] .pill svg { color: #f5f5f7 !important; stroke: #f5f5f7 !important; }
+
+</style>
+
+<style id='contrast-fixes-pass3'>
+
+/* === Contrast pass 3: force action icons & search icon === */
+:root[data-theme="light"] .list-actions svg { stroke: #1d1d1f !important; }
+:root[data-theme="dark"]  .list-actions svg { stroke: #ffffff !important; }
+:root[data-theme="dark"]  .list-icon { stroke: #d2d2d7 !important; } /* left-side link icon */
+
+:root[data-theme="dark"]  .search-input { color: #f5f5f7 !important; }
+:root[data-theme="dark"]  .search-input::placeholder { color: #a1a1a6 !important; }
+
+</style>
+
+<style id='contrast-fixes-pass4'>
+
+/* === Contrast pass 4 (final targeted fixes) === */
+
+/* 1) Search icon must never fill */
+.search-icon,
+.search-icon * {
+  fill: none !important;
+}
+:root[data-theme="light"] .search-icon { stroke: #6e6e73 !important; }
+:root[data-theme="dark"]  .search-icon { stroke: #ffffff !important; }
+
+/* 2) Action icons use stroke='currentColor' inside <path>.
+      Set color on the container by theme to propagate correctly. */
+:root[data-theme="light"] .list-actions,
+:root[data-theme="light"] .list-actions svg { color: #1d1d1f !important; }
+:root[data-theme="dark"]  .list-actions,
+:root[data-theme="dark"]  .list-actions svg { color: #ffffff !important; }
+/* Safety: if any path/rect overrides stroke, force it to currentColor */
+.list-actions path,
+.list-actions rect,
+.list-actions circle,
+.list-actions line,
+.list-actions polyline,
+.list-actions polygon {
+  stroke: currentColor !important;
+}
+
+/* Left-side list icon also uses currentColor; set by theme */
+:root[data-theme="dark"]  .list-icon { color: #d2d2d7 !important; }
+:root[data-theme="light"] .list-icon { color: #1d1d1f !important; }
+
+/* 3) Dark theme pill.active shouldn't be white */
+:root[data-theme="dark"] .pill.active {
+  background: var(--apple-gray-5) !important;
+  color: var(--apple-gray-1) !important;
+}
+
+</style>
+
+<style id='modal-fixes'>
+
+/* === Modal form clean-up (Apple) === */
+/* Light theme: inputs are white with dark text; focus ring blue, sem inverter para preto */
+:root[data-theme="light"] .form-input,
+:root[data-theme="light"] .form-select,
+:root[data-theme="light"] .form-textarea {
+  background: #ffffff !important;
+  color: #1d1d1f !important;
+}
+:root[data-theme="light"] .form-input::placeholder,
+:root[data-theme="light"] .form-textarea::placeholder {
+  color: #6e6e73 !important;
+}
+:root[data-theme="light"] .form-input:focus,
+:root[data-theme="light"] .form-select:focus,
+:root[data-theme="light"] .form-textarea:focus {
+  background: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(0,113,227,0.22) !important;
+}
+
+/* Dark theme: manter contraste suave */
+:root[data-theme="dark"] .form-input,
+:root[data-theme="dark"] .form-select,
+:root[data-theme="dark"] .form-textarea {
+  background: rgba(255,255,255,0.06) !important;  /* sutil em dark */
+  color: #f5f5f7 !important;
+}
+:root[data-theme="dark"] .form-input:focus,
+:root[data-theme="dark"] .form-select:focus,
+:root[data-theme="dark"] .form-textarea:focus {
+  background: rgba(255,255,255,0.10) !important;
+  box-shadow: 0 0 0 3px rgba(0,113,227,0.35) !important;
+}
+
+/* Labels */
+:root[data-theme="light"] .form-label { color: #6e6e73 !important; }
+:root[data-theme="dark"]  .form-label { color: #d2d2d7 !important; }
+
+/* Secondary button (Cancelar) */
+:root[data-theme="light"] .button-secondary {
+  background: #e8e8ed !important; /* apple-gray-2 */
+  color: #1d1d1f !important;
+}
+:root[data-theme="light"] .button-secondary:hover {
+  background: #d2d2d7 !important; /* apple-gray-3 */
+}
+:root[data-theme="dark"] .button-secondary {
+  background: rgba(255,255,255,0.12) !important;
+  color: #f5f5f7 !important;
+}
+
+/* Modal content shadow subtle + backdrop coherence */
+.modal-content {
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25) !important;
+}
 
 </style>
 </head>
 <body>
-  <!-- Monochrome SVG symbols -->
-  <svg style="position:absolute;width:0;height:0;overflow:hidden">
-    <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="9" y="9" width="11" height="11" rx="2"></rect><rect x="4" y="4" width="11" height="11" rx="2"></rect>
-    </symbol>
-    <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M4 20h4l11-11a2.8 2.8 0 1 0-4-4L4 16v4z"></path>
-    </symbol>
-    <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M3 6h18M8 6V4h8v2M6 6v14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6"></path>
-    </symbol>
-    <symbol id="i-grip" viewBox="0 0 24 24" fill="currentColor">
-      <circle cx="7" cy="8" r="1"></circle><circle cx="7" cy="12" r="1"></circle><circle cx="7" cy="16" r="1"></circle>
-      <circle cx="11" cy="8" r="1"></circle><circle cx="11" cy="12" r="1"></circle><circle cx="11" cy="16" r="1"></circle>
-    </symbol>
-    <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M10 13a5 5 0 0 1 0-7l1-1a5 5 0 1 1 7 7l-1 1M14 11a5 5 0 0 1 0 7l-1 1a5 5 0 1 1-7-7l1-1"></path>
-    </symbol>
-    <symbol id="i-note" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M6 3h9l4 4v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path><path d="M15 3v5h5"></path>
-    </symbol>
-    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="4"></circle>
-      <path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l-1.5-1.5M20.5 20.5L19 19M5 19l-1.5 1.5M20.5 3.5L19 5"></path>
-    </symbol>
-    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-    </symbol>
-  </svg>
-
-  <main class="wrap">
-    <section class="hero">
-      <div class="row">
-        <div class="brand" aria-hidden="true">⛪</div>
-        <div>
-          <h1 id="title">XVI EAC</h1>
-          <div class="sub">Paróquia Senhor Bom Jesus • Divinópolis/MG</div>
-          <span id="tagline" class="tagline" title="Toque para editar" contenteditable="true">Estou a caminho.</span>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="icon-container">
+          <svg viewBox="0 0 24 24" class="icon-church">
+            <path d="M12 2v4m0 0v4m0-4h-2m2 0h2" stroke="currentColor" fill="none"/>
+            <path d="M4 11h16l-3 9H7l-3-9z" stroke="currentColor" fill="none"/>
+            <path d="M9 11v6m6-6v6m-3-6v9" stroke="currentColor" fill="none"/>
+          </svg>
+        </div>
+        <div class="header-text">
+          <h1 class="display">XVI EAC</h1>
+          <div class="caption">Paróquia Senhor Bom Jesus</div>
+          <div class="footnote">Divinópolis/MG</div>
+          <div class="tagline" contenteditable="true" spellcheck="false">Estou a caminho.</div>
         </div>
       </div>
+    </header>
 
-      <div class="bar">
-        <div class="search" role="search">🔎 <input id="q" type="search" placeholder="Buscar por título/nota…" aria-label="Filtrar itens" inputmode="search"></div>
-        <button class="chip" id="chipAll" aria-pressed="true">Todos</button>
-        <button class="chip" id="chipLinks" aria-pressed="false">Links</button>
-        <button class="chip" id="chipNotes" aria-pressed="false">Notas</button>
-        <button class="chip" id="reorderToggle" aria-pressed="false" title="Reordenar (alça à esquerda)">Reordenar</button>
-        <button class="chip" id="themeToggle" aria-label="Alternar tema" title="Alternar tema"><svg class="icon" id="themeIcon"><use href="#i-moon"></use></svg></button>
-        <div class="fine" style="margin-left:auto; color:var(--muted)">Atualizado em 2025-08-08 12:21</div>
+    <!-- Search -->
+    <section class="search-section">
+      <div class="search-bar">
+        <svg viewBox="0 0 24 24" class="search-icon">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input type="search" class="search-input" placeholder="Buscar" autocomplete="off" autocorrect="off">
       </div>
-
-      <div id="list" class="links" aria-live="polite"></div>
     </section>
-  </main>
 
-  <!-- Add button -->
-  <div class="fab"><button id="addBtn" type="button" title="Adicionar" onclick="window.__openAdd && window.__openAdd()">+</button></div>
+    <!-- Filters -->
+    <section class="filter-section">
+      <button class="pill active" data-filter="all">Todos</button>
+      <button class="pill" data-filter="link">Links</button>
+      <button class="pill" data-filter="note">Notas</button>
+      <button class="pill" data-filter="reorder">Reordenar</button>
+      <button class="pill icon-pill" data-action="theme" aria-label="Alternar tema" title="Alternar tema">
+  <svg viewBox="0 0 24 24" class="theme-icon" aria-hidden="true" style="width:18px;height:18px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round">
+    <g class="moon">
+      <path d="M21 12.5A8.5 8.5 0 1 1 11.5 3a6.5 6.5 0 1 0 9.5 9.5z"/>
+    </g>
+    <g class="sun">
+      <circle cx="12" cy="12" r="4"/>
+      <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+    </g>
+  </svg>
+</button>
+    </section>
 
-  <div id="toast" class="toast" role="status" aria-live="assertive"></div>
+    <!-- List -->
+    <section class="list" id="list">
+      <div class="loading">
+        <div class="spinner"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- FAB -->
+  <button class="fab" aria-label="Adicionar">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 5v14m-7-7h14"/>
+    </svg>
+  </button>
+
+  <!-- Toast -->
+  <div class="toast" role="status" aria-live="polite"></div>
+
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Novo Item</h2>
+        <button class="modal-close" aria-label="Fechar">
+          <svg viewBox="0 0 24 24">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="modal-form" id="itemForm">
+          <div class="form-group">
+            <label class="form-label">Tipo</label>
+            <select class="form-select" id="itemType">
+              <option value="link">Link</option>
+              <option value="note">Nota</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Título</label>
+            <input type="text" class="form-input" id="itemTitle" required autocomplete="off">
+          </div>
+          <div class="form-group" id="urlGroup">
+            <label class="form-label">URL</label>
+            <input type="url" class="form-input" id="itemUrl" autocomplete="off">
+          </div>
+          <div class="form-group" id="noteGroup" style="display: none;">
+            <label class="form-label">Conteúdo</label>
+            <textarea class="form-textarea" id="itemNote"></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="button button-danger" id="deleteBtn" style="display: none;">Excluir</button>
+            <button type="button" class="button button-secondary" id="cancelBtn">Cancelar</button>
+            <button type="submit" class="button button-primary">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
   <!-- Note Viewer Modal -->
-  <div id="noteModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="box">
-      <div class="top">
-        <h3 id="noteModalTitle">Nota</h3>
-        <div style="display:flex; gap:6px; align-items:center">
-          <button class="close" id="noteEditBtn" title="Editar"><svg class="icon"><use href="#i-edit"></use></svg></button>
-          <button class="close" id="noteDeleteBtn" title="Apagar"><svg class="icon"><use href="#i-trash"></use></svg></button>
-          <button class="close" id="noteCloseBtn" title="Fechar">✕</button>
+  <div class="modal" id="noteModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="noteTitle">Nota</h2>
+        <button class="modal-close" aria-label="Fechar" onclick="closeNoteModal()">
+          <svg viewBox="0 0 24 24">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="note-viewer">
+          <div class="note-content" id="noteContent"></div>
+        </div>
+        <div class="form-actions" style="margin-top: 20px;">
+          <button type="button" class="button button-secondary" onclick="editNoteFromViewer()">Editar</button>
+          <button type="button" class="button button-primary" onclick="closeNoteModal()">Fechar</button>
         </div>
       </div>
-      <pre id="noteModalBody"></pre>
     </div>
   </div>
 
-  <!-- Editor Modal (novo) -->
-  <div id="editorModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="box">
-      <div class="top">
-        <h3 id="editorTitle">Novo item</h3>
-        <div style="display:flex; gap:6px; align-items:center">
-          <button class="close" id="editorCloseBtn" title="Fechar">✕</button>
-        </div>
-      </div>
-      <form id="editorForm">
-        <div class="field">
-          <label for="eType">Tipo do item</label>
-          <select id="eType">
-            <option value="link">Link</option>
-            <option value="note">Nota</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="eTitle">Título</label>
-          <input id="eTitle" placeholder="Ex.: Playlist Spotify" required>
-        </div>
-        <div class="field" id="eUrlRow">
-          <label for="eUrl">URL</label>
-          <input id="eUrl" placeholder="https://..." inputmode="url">
-        </div>
-        <div class="field" id="eNoteRow" style="display:none">
-          <label for="eContent">Nota</label>
-          <textarea id="eContent" rows="8" placeholder="Texto da nota…"></textarea>
-        </div>
-        <div class="row-end">
-          <button type="button" class="btn-mini warn" id="eDeleteBtn" style="display:none">Excluir</button>
-          <button type="submit" class="btn-mini" id="eSaveBtn">Salvar</button>
-        </div>
-      </form>
-    </div>
-  </div>
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+    import { 
+      getFirestore, 
+      collection, 
+      doc, 
+      addDoc, 
+      deleteDoc, 
+      updateDoc, 
+      setDoc, 
+      onSnapshot, 
+      serverTimestamp, 
+      writeBatch 
+    } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-<script type="module">
-  // ===================== Firebase =====================
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-  import { getFirestore, collection, doc, addDoc, deleteDoc, updateDoc, setDoc, onSnapshot, serverTimestamp, writeBatch } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyCIX7hEmpRZacxbzIxUOzKMuu4l0lXBTQQ",
+      authDomain: "xvi-eac.firebaseapp.com",
+      projectId: "xvi-eac",
+      storageBucket: "xvi-eac.appspot.com",
+      messagingSenderId: "340488873046",
+      appId: "1:340488873046:web:ddc2c775fe977c4d6487f7"
+    };
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCIX7hEmpRZacxbzIxUOzKMuu4l0lXBTQQ",
-    authDomain: "xvi-eac.firebaseapp.com",
-    projectId: "xvi-eac",
-    storageBucket: "xvi-eac.appspot.com",
-    messagingSenderId: "340488873046",
-    appId: "1:340488873046:web:ddc2c775fe977c4d6487f7"
-  };
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-  // ===================== STATE =====================
-  const itemsCol = collection(db, "items");
-  const mottoDoc = doc(db, "config", "motto");
-  let itemsCache = [];
-  let filterType = "all"; // all | link | note
-  let queryText = "";
-  let reorderEnabled = false;
-  let editingId = null;
-  let lastFocus = null;
+    // Global state
+    let items = [];
+    let filteredItems = [];
+    let currentFilter = 'all';
+    let searchQuery = '';
+    let isReordering = false;
+    let editingItem = null;
+    let sortableInstance = null;
+    let viewingNoteId = null;
 
-  // ===================== HELPERS =====================
-  const $ = (sel, root=document) => root.querySelector(sel);
-  const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
-  function toast(msg, ok=false){
-    const t = $("#toast");
-    t.classList.remove("clickable");
-    t.onclick = null;
-    t.textContent = msg;
-    if(ok) t.classList.add("ok"); else t.classList.remove("ok");
-    t.style.display = "block";
-    setTimeout(()=> t.style.display="none", 1600);
-  }
-  // Undo toast
-  let __undoTimer = null;
-  let __lastDeleted = null; // {id, data}
-  async function deleteWithUndo(id, data){
-    try{
-      await deleteDoc(doc(itemsCol, id));
-      __lastDeleted = { id, data };
-      const t = $("#toast");
-      t.classList.add("clickable");
-      t.innerHTML = "Item apagado — <strong>Desfazer</strong>";
-      t.style.display = "block";
-      t.onclick = async ()=>{
-        if(__undoTimer){ clearTimeout(__undoTimer); __undoTimer = null; }
-        t.onclick = null; t.classList.remove("clickable");
-        if(__lastDeleted){
-          await setDoc(doc(itemsCol, __lastDeleted.id), __lastDeleted.data);
-          __lastDeleted = null;
-          toast("Item restaurado.", true);
-        }
-      };
-      if(__undoTimer){ clearTimeout(__undoTimer); }
-      __undoTimer = setTimeout(()=>{
-        t.style.display = "none";
-        t.onclick = null; t.classList.remove("clickable");
-        __lastDeleted = null;
-        __undoTimer = null;
-      }, 5000);
-    }catch(e){ console.error(e); toast("Erro ao apagar."); }
-  }
-  const svg = (id, cls="icon") => { const s=document.createElementNS("http://www.w3.org/2000/svg","svg"); s.setAttribute("class",cls); s.setAttribute("viewBox","0 0 24 24"); s.innerHTML=`<use href="#${id}"></use>`; return s; };
-  function lockScroll(on){ document.body.classList.toggle('modal-open', !!on); }
+    // DOM elements
+    const listEl = document.getElementById('list');
+    const modal = document.getElementById('modal');
+    const noteModal = document.getElementById('noteModal');
+    const modalTitle = document.querySelector('.modal-title');
+    const itemForm = document.getElementById('itemForm');
+    const itemType = document.getElementById('itemType');
+    const itemTitle = document.getElementById('itemTitle');
+    const itemUrl = document.getElementById('itemUrl');
+    const itemNote = document.getElementById('itemNote');
+    const urlGroup = document.getElementById('urlGroup');
+    const noteGroup = document.getElementById('noteGroup');
+    const deleteBtn = document.getElementById('deleteBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const searchInput = document.querySelector('.search-input');
+    const tagline = document.querySelector('.tagline');
+    const fab = document.querySelector('.fab');
+    const toast = document.querySelector('.toast');
 
-  // ===================== THEME =====================
-  const themeBtn = $("#themeToggle");
-  function applyTheme(){
-    const t = localStorage.getItem("theme-eac") || "light";
-    document.documentElement.setAttribute("data-theme", t);
-    const useEl = document.querySelector("#themeIcon use");
-    if(useEl){ useEl.setAttribute("href", t==="light" ? "#i-moon" : "#i-sun"); }
-  }
-  themeBtn.addEventListener("click", ()=>{
-    const t = localStorage.getItem("theme-eac") || "light";
-    const next = t === "light" ? "dark" : "light";
-    localStorage.setItem("theme-eac", next);
-    applyTheme();
-  });
+    // Collections
+    const itemsCol = collection(db, 'items');
+    const configDoc = doc(db, 'config', 'motto');
 
-  // ===================== RENDER =====================
-  const listEl = $("#list");
-  function matches(it, q){
-    if(!q) return true;
-    return [it.title||"", it.note||"", it.url||""].join(" ").toLowerCase().includes(q.toLowerCase());
-  }
-  function render(){
-    document.body.classList.toggle("reorder", reorderEnabled);
-    listEl.innerHTML = "";
-    const filtered = itemsCache
-      .filter(({data}) => (filterType==="all" || data.type===filterType) && matches(data, queryText))
-      .sort((a,b)=> (a.data.position ?? 999999) - (b.data.position ?? 999999) || (b.data.createdAt?.seconds ?? 0) - (a.data.createdAt?.seconds ?? 0));
+    // Icons
+    const icons = {
+      link: `<svg viewBox="0 0 24 24" class="list-icon">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" stroke="currentColor" fill="none"/>
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" stroke="currentColor" fill="none"/>
+      </svg>`,
+      note: `<svg viewBox="0 0 24 24" class="list-icon">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" fill="none"/>
+        <path d="M14 2v6h6" stroke="currentColor" fill="none"/>
+        <path d="M16 13H8m8 4H8m2-8H8" stroke="currentColor" fill="none"/>
+      </svg>`,
+      copy: `<svg viewBox="0 0 24 24">
+        <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" fill="none"/>
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" fill="none"/>
+      </svg>`,
+      edit: `<svg viewBox="0 0 24 24">
+        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke="currentColor" fill="none"/>
+        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" fill="none"/>
+      </svg>`,
+      trash: `<svg viewBox="0 0 24 24">
+        <path d="M3 6h18m-2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke="currentColor" fill="none"/>
+      </svg>`,
+      grip: `<svg viewBox="0 0 24 24" class="drag-handle">
+        <circle cx="12" cy="9" r="1" fill="currentColor"/>
+        <circle cx="12" cy="12" r="1" fill="currentColor"/>
+        <circle cx="12" cy="15" r="1" fill="currentColor"/>
+        <circle cx="9" cy="9" r="1" fill="currentColor"/>
+        <circle cx="9" cy="12" r="1" fill="currentColor"/>
+        <circle cx="9" cy="15" r="1" fill="currentColor"/>
+      </svg>`
+    };
 
-    for(const {id, data} of filtered){
-      const container = document.createElement("div"); container.className = "item"; container.dataset.id = id;
-      const isLink = data.type==="link" && data.url;
-      const tile = document.createElement(isLink ? "a" : "div"); tile.className = "tile";
-      if(isLink){ tile.href = data.url; tile.target="_blank"; tile.rel="noopener noreferrer"; }
-      const handle = document.createElement("div"); handle.className="handle"; handle.title="Arraste para reordenar"; handle.appendChild(svg("i-grip"));
-      const icon = svg(data.type==="note" ? "i-note" : "i-link");
-      const txt = document.createElement("div"); txt.className="txt";
-      const lbl = document.createElement("div"); lbl.className="lbl"; lbl.textContent = data.title || (data.type==="note" ? "Nota" : "Link"); txt.appendChild(lbl);
-      if(data.type==="note" && data.note){ const d=document.createElement("div"); d.className="desc"; d.textContent = data.note; txt.appendChild(d); }
-      const meta = document.createElement("div"); meta.className = "meta"; const bar = document.createElement("div"); bar.className = "iconbar";
-      if(isLink){ const bCopy=document.createElement("button"); bCopy.className="iconbtn"; bCopy.title="Copiar link"; bCopy.appendChild(svg("i-copy"));
-        bCopy.addEventListener("click", async (e)=>{ e.preventDefault(); e.stopPropagation(); try{ await navigator.clipboard.writeText(data.url); toast("Link copiado.", true); }catch{ toast("Falha ao copiar."); } }); bar.appendChild(bCopy); }
-      const bEdit=document.createElement("button"); bEdit.className="iconbtn"; bEdit.title="Editar"; bEdit.appendChild(svg("i-edit"));
-      bEdit.addEventListener("click", (e)=>{ e.preventDefault(); e.stopPropagation(); openEditor(id, data); });
-      const bDel=document.createElement("button"); bDel.className="iconbtn"; bDel.title="Apagar"; bDel.appendChild(svg("i-trash"));
-      bDel.addEventListener("click", async (e)=>{ e.preventDefault(); e.stopPropagation(); if(confirm("Apagar este item?")) await deleteWithUndo(id, data); });
-      bar.appendChild(bEdit); bar.appendChild(bDel); meta.appendChild(bar);
-
-      tile.appendChild(handle); tile.appendChild(icon); tile.appendChild(txt); tile.appendChild(meta);
-      container.appendChild(tile); listEl.appendChild(container);
-      if(data.type==="note"){ tile.style.cursor = "pointer"; tile.addEventListener("click", ()=> openNoteViewer(id, data)); }
+    // Utility functions
+    function showToast(message, type = '') {
+      toast.textContent = message;
+      toast.className = `toast active ${type}`;
+      setTimeout(() => {
+        toast.classList.remove('active');
+      }, 3000);
     }
 
-    if(window.__sortable) window.__sortable.destroy();
-    window.__sortable = new Sortable(listEl, {
-      animation: 150, handle: ".handle", draggable: ".item",
-      disabled: !reorderEnabled,
-      onEnd: updateOrderInFirestore
-    });
-  }
+    function openModal() {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => itemTitle.focus(), 300);
+    }
 
-  // ===================== NOTE VIEWER =====================
-  const noteModal = $("#noteModal");
-  const noteTitle = $("#noteModalTitle");
-  const noteBody  = $("#noteModalBody");
-  let noteViewingId = null;
-  $("#noteCloseBtn").addEventListener("click", ()=> closeModal(noteModal));
-  $("#noteModal").addEventListener("click", (e)=>{ if(e.target.id==="noteModal") closeModal(noteModal); });
-  $("#noteEditBtn").addEventListener("click", ()=>{ if(!noteViewingId) return; const it = itemsCache.find(d=>d.id===noteViewingId); if(it) openEditor(it.id, it.data); closeModal(noteModal); });
-  $("#noteDeleteBtn").addEventListener("click", async ()=>{ if(!noteViewingId) return; if(confirm("Apagar esta nota?")){ const it = itemsCache.find(d=>d.id===noteViewingId); if(it){ await deleteWithUndo(noteViewingId, it.data); } closeModal(noteModal); } });
+    function closeModal() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+      resetForm();
+    }
 
-  function openNoteViewer(id, data){
-    noteViewingId = id; openModal(noteModal);
-    noteTitle.textContent = data.title || "Nota";
-    noteBody.textContent = data.note || "";
-  }
+    function openNoteModal(id, data) {
+      viewingNoteId = id;
+      document.getElementById('noteTitle').textContent = data.title || 'Nota';
+      document.getElementById('noteContent').textContent = data.note || '';
+      noteModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
 
-  // ===================== EDITOR MODAL =====================
-  const editorModal = $("#editorModal");
-  const editorForm = $("#editorForm");
-  const eType = $("#eType"), eTitle=$("#eTitle"), eUrl=$("#eUrl"), eContent=$("#eContent");
-  const eUrlRow=$("#eUrlRow"), eNoteRow=$("#eNoteRow"), eDeleteBtn=$("#eDeleteBtn"), editorTitle=$("#editorTitle");
-  $("#editorCloseBtn").addEventListener("click", ()=> closeModal(editorModal));
-  editorModal.addEventListener("click", (e)=>{ if(e.target.id==="editorModal") closeModal(editorModal); });
-  eType.addEventListener("change", ()=>{ const t = eType.value; eUrlRow.style.display = (t==="link") ? "" : "none"; eNoteRow.style.display = (t==="note") ? "" : "none"; });
+    window.closeNoteModal = function() {
+      noteModal.classList.remove('active');
+      document.body.style.overflow = '';
+      viewingNoteId = null;
+    }
 
-  function openEditor(id, data){
-    editingId = id;
-    editorTitle.textContent = id ? "Editar item" : "Novo item";
-    const t = data?.type || "link";
-    eType.value = t; eType.dispatchEvent(new Event("change"));
-    eTitle.value = data?.title || "";
-    eUrl.value = data?.url || "";
-    eContent.value = data?.note || "";
-    eDeleteBtn.style.display = id ? "" : "none";
-    openModal(editorModal, ()=> eTitle.focus());
-    lastFocus = document.activeElement;
-  }
-
-  editorForm.addEventListener("submit", async (ev)=>{
-    ev.preventDefault();
-    const t = eType.value;
-    const payload = { type: t, title: (eTitle.value||"").trim(), url: t==="link" ? (eUrl.value||"").trim() : "", note: t==="note" ? (eContent.value||"").trim() : "" };
-    if(!payload.title) return toast("Informe um título.");
-    if(t==="link" && !payload.url) return toast("Informe a URL.");
-    try{
-      if(editingId){
-        await updateDoc(doc(itemsCol, editingId), payload);
-      } else {
-        const pos = listEl.children.length;
-        await addDoc(itemsCol, { ...payload, createdAt: serverTimestamp(), position: pos });
+    window.editNoteFromViewer = function() {
+      const item = items.find(i => i.id === viewingNoteId);
+      if (item) {
+        closeNoteModal();
+        openEditModal(item.id, item.data);
       }
-      closeModal(editorModal); toast("Salvo.", true);
-    } catch(err){ console.error(err); toast("Erro ao salvar."); }
-  });
+    }
 
-  eDeleteBtn.addEventListener("click", async ()=>{
-    if(editingId && confirm("Apagar este item?")){ const it = itemsCache.find(d=>d.id===editingId); const data = it ? it.data : { type:eType.value, title:eTitle.value, url:eUrl.value, note:eContent.value }; await deleteWithUndo(editingId, data); closeModal(editorModal); }
-  });
+    function resetForm() {
+      itemForm.reset();
+      editingItem = null;
+      modalTitle.textContent = 'Novo Item';
+      deleteBtn.style.display = 'none';
+      itemType.value = 'link';
+      updateFormFields();
+    }
 
-  // Modal helpers
-  function openModal(el, onOpen){ el.classList.add("open"); el.setAttribute("aria-hidden","false"); lockScroll(true); onOpen && onOpen(); }
-  function closeModal(el){ el.classList.remove("open"); el.setAttribute("aria-hidden","true"); lockScroll(false); if(lastFocus) try{ lastFocus.focus(); }catch{} }
+    function updateFormFields() {
+      const type = itemType.value;
+      if (type === 'link') {
+        urlGroup.style.display = 'block';
+        noteGroup.style.display = 'none';
+      } else {
+        urlGroup.style.display = 'none';
+        noteGroup.style.display = 'block';
+      }
+    }
 
-  // ===================== REORDER =====================
-  async function updateOrderInFirestore(){
-    try{
-      const ids = $$(".item", listEl).map(n=>n.dataset.id);
+    function openEditModal(id, data) {
+      editingItem = { id, data };
+      modalTitle.textContent = 'Editar Item';
+      itemType.value = data.type || 'link';
+      itemTitle.value = data.title || '';
+      itemUrl.value = data.url || '';
+      itemNote.value = data.note || '';
+      deleteBtn.style.display = 'block';
+      updateFormFields();
+      openModal();
+    }
+
+    // Filter functionality
+    function filterItems() {
+      filteredItems = items.filter(item => {
+        const matchesType = currentFilter === 'all' || item.data.type === currentFilter;
+        const matchesSearch = !searchQuery || 
+          (item.data.title && item.data.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (item.data.note && item.data.note.toLowerCase().includes(searchQuery.toLowerCase()));
+        return matchesType && matchesSearch;
+      });
+      renderList();
+    }
+
+    // Render list
+    function renderList() {
+      if (filteredItems.length === 0) {
+        listEl.innerHTML = `
+          <div style="text-align: center; padding: 60px 20px; color: var(--apple-gray-4);">
+            <div class="footnote">Nenhum item encontrado</div>
+          </div>
+        `;
+        return;
+      }
+
+      const sortedItems = [...filteredItems].sort((a, b) => {
+        const posA = a.data.position ?? 999999;
+        const posB = b.data.position ?? 999999;
+        return posA - posB;
+      });
+
+      listEl.innerHTML = sortedItems.map(({ id, data }) => {
+        const isLink = data.type === 'link';
+        return `
+          <div class="list-item ${isReordering ? 'reorder-mode' : ''}" data-id="${id}">
+            ${isLink ? `<a href="${data.url}" target="_blank" rel="noopener" class="list-item-content">` : `<div class="list-item-content" onclick="window.openNote('${id}')">` }
+              ${icons.grip}
+              ${icons[data.type] || icons.link}
+              <div class="list-text">
+                <div class="list-title">${data.title || 'Sem título'}</div>
+                ${data.type === 'note' && data.note ? `<div class="list-subtitle">${data.note.substring(0, 60)}${data.note.length > 60 ? '...' : ''}</div>` : ''}
+              </div>
+              <div class="list-actions">
+                ${isLink ? `
+                  <button class="action-button" onclick="window.copyLink(event, '${data.url}')" title="Copiar">
+                    ${icons.copy}
+                  </button>
+                ` : ''}
+                <button class="action-button" onclick="window.editItem(event, '${id}')" title="Editar">
+                  ${icons.edit}
+                </button>
+                <button class="action-button" onclick="window.deleteItem(event, '${id}')" title="Excluir">
+                  ${icons.trash}
+                </button>
+              </div>
+            ${isLink ? '</a>' : '</div>'}
+          </div>
+        `;
+      }).join('');
+
+      // Setup sortable if in reorder mode
+      if (isReordering) {
+        if (sortableInstance) sortableInstance.destroy();
+        sortableInstance = new Sortable(listEl, {
+          animation: 150,
+          handle: '.drag-handle',
+          onEnd: updateOrder
+        });
+      }
+    }
+
+    // Window functions for event handlers
+    window.openNote = function(id) {
+      const item = items.find(i => i.id === id);
+      if (item && item.data.type === 'note') {
+        openNoteModal(id, item.data);
+      }
+    }
+
+    window.copyLink = async function(event, url) {
+      event.preventDefault();
+      event.stopPropagation();
+      try {
+        await navigator.clipboard.writeText(url);
+        showToast('Link copiado', 'success');
+      } catch (err) {
+        showToast('Erro ao copiar', 'error');
+      }
+    }
+
+    window.editItem = function(event, id) {
+      event.preventDefault();
+      event.stopPropagation();
+      const item = items.find(i => i.id === id);
+      if (item) {
+        openEditModal(id, item.data);
+      }
+    }
+
+    window.deleteItem = async function(event, id) {
+      event.preventDefault();
+      event.stopPropagation();
+      if (confirm('Excluir este item?')) {
+        try {
+          await deleteDoc(doc(itemsCol, id));
+          showToast('Item excluído', 'success');
+        } catch (err) {
+          showToast('Erro ao excluir', 'error');
+        }
+      }
+    }
+
+    // Update order in Firestore
+    async function updateOrder() {
+      const orderedIds = Array.from(listEl.querySelectorAll('.list-item')).map(el => el.dataset.id);
       const batch = writeBatch(db);
-      ids.forEach((id, idx)=> batch.update(doc(itemsCol, id), { position: idx }));
-      await batch.commit(); toast("Ordem salva.", true);
-    }catch(e){ console.error(e); toast("Erro ao salvar ordem."); }
-  }
-  $("#reorderToggle").addEventListener("click", ()=>{
-    if(queryText || filterType!=="all"){ toast("Para reordenar, limpe a busca e selecione 'Todos'."); return; }
-    reorderEnabled = !reorderEnabled; $("#reorderToggle").setAttribute("aria-pressed", reorderEnabled); render();
-  });
+      
+      orderedIds.forEach((id, index) => {
+        batch.update(doc(itemsCol, id), { position: index });
+      });
 
-  // ===================== FILTERS & SEARCH =====================
-  $("#q").addEventListener("input", (e)=>{ queryText = e.target.value.trim(); render(); });
-  $("#chipAll").addEventListener("click", ()=> setType("all"));
-  $("#chipLinks").addEventListener("click", ()=> setType("link"));
-  $("#chipNotes").addEventListener("click", ()=> setType("note"));
-  function setType(t){ filterType = t; $("#chipAll").setAttribute("aria-pressed", t==="all"); $("#chipLinks").setAttribute("aria-pressed", t==="link"); $("#chipNotes").setAttribute("aria-pressed", t==="note"); render(); }
+      try {
+        await batch.commit();
+        showToast('Ordem atualizada', 'success');
+      } catch (err) {
+        showToast('Erro ao atualizar ordem', 'error');
+      }
+    }
 
-  // ===================== TAGLINE (MOTTO) =====================
-  const taglineEl = $("#tagline");
-  taglineEl.addEventListener("blur", async ()=>{ try{ await setDoc(mottoDoc, { text: taglineEl.textContent.trim() }); toast("Frase atualizada.", true); }catch(e){ console.error(e); toast("Erro ao salvar frase."); } });
-  taglineEl.addEventListener("keydown", (e)=>{ if(e.key==="Enter"){ e.preventDefault(); taglineEl.blur(); } });
+    // Event listeners
+    fab.addEventListener('click', () => {
+      resetForm();
+      openModal();
+    });
 
-  // ===================== LIVE SUBSCRIPTIONS =====================
-  onSnapshot(mottoDoc, (snap)=>{ const d=snap.data(); if(d?.text) taglineEl.textContent = d.text; });
-  onSnapshot(itemsCol, (snap)=>{ itemsCache = snap.docs.map(d=>({ id:d.id, data:d.data() })); render(); }, (err)=>console.error(err));
+    document.querySelector('.modal-close').addEventListener('click', closeModal);
+    cancelBtn.addEventListener('click', closeModal);
 
-  // ===================== INIT =====================
-  if(!localStorage.getItem('theme-eac')) localStorage.setItem('theme-eac','light');
-  applyTheme(); render();
-</script>
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    noteModal.addEventListener('click', (e) => {
+      if (e.target === noteModal) closeNoteModal();
+    });
+
+    itemType.addEventListener('change', updateFormFields);
+
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      filterItems();
+    });
+
+    // Filter pills
+    document.querySelectorAll('.pill[data-filter]').forEach(pill => {
+      pill.addEventListener('click', () => {
+        const filter = pill.dataset.filter;
+        
+        if (filter === 'reorder') {
+          if (currentFilter !== 'all' || searchQuery) {
+            showToast('Limpe a busca e selecione "Todos" para reordenar');
+            return;
+          }
+          isReordering = !isReordering;
+          pill.classList.toggle('active', isReordering);
+          renderList();
+        } else {
+          currentFilter = filter;
+          document.querySelectorAll('.pill[data-filter]').forEach(p => {
+            if (p.dataset.filter !== 'reorder') {
+              p.classList.toggle('active', p.dataset.filter === filter);
+            }
+          });
+          filterItems();
+        }
+      });
+    });
+
+    // ===== THEME MANAGEMENT =====
+const themeBtn = document.querySelector('.pill[data-action="theme"]');
+const metaTheme = document.querySelector('meta[name="theme-color"]');
+const metaStatusBar = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
+
+function applyTheme(mode) {
+  document.documentElement.setAttribute('data-theme', mode);
+  try { localStorage.setItem('theme', mode); } catch (e) {}
+
+  if (metaTheme) metaTheme.setAttribute('content', mode === 'light' ? '#ffffff' : '#000000');
+  if (metaStatusBar) metaStatusBar.setAttribute('content', mode === 'light' ? 'default' : 'black-translucent');
+}
+
+function getPreferredTheme() {
+  try {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light' || saved === 'dark') return saved;
+  } catch (e) {}
+  return (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+}
+
+// Initialize theme on load
+applyTheme(getPreferredTheme());
+
+// Toggle on click
+themeBtn.addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  const next = current === 'light' ? 'dark' : 'light';
+  applyTheme(next);
+  showToast(next === 'light' ? 'Tema: Claro' : 'Tema: Escuro');
+});
+
+// Form submission
+    itemForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const data = {
+        type: itemType.value,
+        title: itemTitle.value.trim(),
+        url: itemType.value === 'link' ? itemUrl.value.trim() : '',
+        note: itemType.value === 'note' ? itemNote.value.trim() : '',
+        updatedAt: serverTimestamp()
+      };
+
+      if (!data.title) {
+        showToast('Digite um título', 'error');
+        return;
+      }
+
+      if (data.type === 'link' && !data.url) {
+        showToast('Digite uma URL', 'error');
+        return;
+      }
+
+      try {
+        if (editingItem) {
+          await updateDoc(doc(itemsCol, editingItem.id), data);
+          showToast('Item atualizado', 'success');
+        } else {
+          data.createdAt = serverTimestamp();
+          data.position = items.length;
+          await addDoc(itemsCol, data);
+          showToast('Item adicionado', 'success');
+        }
+        closeModal();
+      } catch (err) {
+        showToast('Erro ao salvar', 'error');
+      }
+    });
+
+    // Delete button
+    deleteBtn.addEventListener('click', async () => {
+      if (editingItem && confirm('Excluir este item?')) {
+        try {
+          await deleteDoc(doc(itemsCol, editingItem.id));
+          showToast('Item excluído', 'success');
+          closeModal();
+        } catch (err) {
+          showToast('Erro ao excluir', 'error');
+        }
+      }
+    });
+
+    // Tagline editing
+    tagline.addEventListener('blur', async () => {
+      const text = tagline.textContent.trim();
+      try {
+        await setDoc(configDoc, { text });
+        showToast('Frase atualizada', 'success');
+      } catch (err) {
+        showToast('Erro ao salvar frase', 'error');
+      }
+    });
+
+    tagline.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        tagline.blur();
+      }
+    });
+
+    // Firebase listeners
+    onSnapshot(configDoc, (snapshot) => {
+      const data = snapshot.data();
+      if (data && data.text) {
+        tagline.textContent = data.text;
+      }
+    });
+
+    onSnapshot(itemsCol, (snapshot) => {
+      items = snapshot.docs.map(doc => ({
+        id: doc.id,
+        data: doc.data()
+      }));
+      filterItems();
+    });
+
+    // Initial setup
+    updateFormFields();
+  </script>
 </body>
 </html>
